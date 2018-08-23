@@ -53,7 +53,74 @@ Solution Transfer, Numerical analysis
 
 \section{Introduction}
 
-I will definitely cite this: \cite{Jiao2004}.
+The first part is a general-purpose tool for computational physics problems.
+The tool enables solution transfer across two curved meshes.
+Since the tool requires a significant amount of computational geometry, the
+second half focuses on computational geometry. In particular, it considers
+cases where the geometric methods used have seriously degraded accuracy due to
+ill-conditioning.
+
+In computational physics, the problem of solution transfer between meshes
+occurs in several applications. For example, by allowing the underyling
+computational domain to change during a simulation, computational
+effort can be focused dynamically to resolve sensitive features
+of a numerical solution. Mesh adaptivity (see, for example,
+\cite{Babuska1978, Peraire1987, Pain2001}), this in-flight change in the mesh,
+requires translating the numerical solution from the old mesh to the new,
+i.e. solution transfer. As another example, Lagrangian or particle-based
+methods treat each node in the mesh as a particle and so with each timestep the
+mesh travels \emph{with} the fluid (see, for example, \cite{Hirt1974}).
+However, over (typically limited) time the mesh
+becomes distorted and suffers a loss in element quality which causes
+catastrophic loss in the accuracy of computation. To overcome this, the
+domain must be remeshed or rezoned and the solution must be
+transferred (remapped) onto the new mesh configuration.
+
+When pointwise interpolation is used to transfer a solution, quantities with
+physical meaning (e.g. mass, concentration, energy) may not be conserved.
+To address this, there have been many explorations (for example,
+\cite{Jiao2004, Farrell2009, Farrell2011}) of
+\emph{conservative interpolation} (typically using Galerkin or
+\(L_2\)-minimizing methods). In this work, the author introduces a
+conservative interpolation method for solution transfer between high-order
+meshes. These high-order meshes are typically curved, but not necessarily
+all elements or at all timesteps.
+
+The existing work on solution transfer has considered straight sided meshes,
+which use shape functions that have degree \(p = 1\) to represent solutions
+on each element or so-called superparametric elements (i.e. a linear mesh
+with degree \(p > 1\) shape functions on a regular grid of points).
+However, both to allow for greater geometric flexibility
+and for high order of convergence, this work will consider the case
+of curved isoparametric\footnote{I.e. the degree of the discrete field on the
+mesh is same as the degree of the shape functions that determine the
+mesh.} meshes. Allowing curved geometries is useful since many practical
+problems involve geometries that change over time, such as flapping flight
+or fluid-structure interactions. In addition, high-order CFD methods
+(\cite{Wang2013}) have the ability to produce highly accurate solutions
+with low dissipation and low dispersion error.
+
+\subsection{Overview}
+
+This work is organized as follows. Section~\ref{sec:preliminaries}
+establishes common notation and reviews basic results relevant to the
+topics at hand. Section~\ref{sec:bezier-intersection} is an
+in-depth discussion of the computational geometry methods needed
+to implement to enable solution transfer. Section~\ref{sec:solution-transfer}
+describes the solution transfer process and gives results of some
+numerical experiments confirming the rate of convergence.
+
+\section{Preliminaries}\label{sec:preliminaries}
+
+Placeholder.
+
+\section{B\'{e}zier Intersection Problems}\label{sec:bezier-intersection}
+
+Placeholder.
+
+\section{Solution Transfer}\label{sec:solution-transfer}
+
+Placeholder.
 
 \bibliography{paper}
 \bibliographystyle{alpha}
