@@ -337,11 +337,12 @@ numerical experiments confirming the rate of convergence.
 
 We'll refer to \(\reals\) for the reals, \(\utri\) represents
 the unit triangle (or unit simplex) in \(\reals^2\):
-\(\utri = \left\{(s, t) \mid 0 \leq s, t, s + t \leq 1\right\}\).
+\begin{equation}
+\utri = \left\{(s, t) \mid 0 \leq s, t, s + t \leq 1\right\}.
+\end{equation}
 When dealing with sequences with multiple indices, e.g.
 \(s_{m, n} = m + n\), we'll use bold symbols to represent
-a multi-index: \(\bm{i} = (m, n)\). We'll use \(\left|\bm{i}\right|\) to
-represent the sum of the components in a multi-index.
+a multi-index: \(\bm{i} = (m, n)\).
 The binomial coefficient
 \(\binom{n}{k}\) is equal to \(\frac{n!}{k! (n - k)!}\) and the trinomial
 coefficient \(\binom{n}{i, j, k}\) is equal to \(\frac{n!}{i! j! k!}\)
@@ -557,7 +558,8 @@ and together they give
 \end{equation}
 In general \(\phi_{\bm{j}}^P\) may not even be a rational bivariate
 function; due to composition with \(b^{-1}\) we can only guarantee that
-it is algebraic (i.e. it can be defined as the zero set of polynomials).
+it is algebraic (i.e. it can be defined as the zero set of polynomials
+with coefficients in \(\reals\left[x, y\right]\)).
 
 \subsection{Curved Polygons}\label{subsec:curved-polygons}
 
@@ -756,7 +758,7 @@ donor mesh. This requires solving three specific subproblems:
 \item Numerically integrating over a region of intersection between two
   elements.
 \end{itemize}
-The first subproblem has been addressed in
+The first subproblem is discussed in
 Section~\ref{subsec:intersect-bez-tri}
 and the curved polygon region(s) of intersection have been described
 in Section~\ref{subsec:curved-polygons}. The second will be considered
@@ -855,52 +857,21 @@ B\'{e}zier maps that define the elements being intersected:
 \(\mathcal{T}_0 = b_0\left(\utri\right)\) and
 \(\mathcal{T}_1 = b_1\left(\utri\right)\).
 
-\begin{figure}
-  \includegraphics{polygon_vs_curved.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{Comparing the relative error for the computed area of a quadratic
-    B\'{e}zier triangle. In one method, the curved boundary is used and the
-    result is correct to machine precision. In the other, the curved edges
-    are approximated by polygonal paths.}
-  \label{fig:polygon-vs-curved}
-\end{figure}
-
-\begin{figure}
-  \includegraphics
-      {polygon_vs_curved_intersection.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{Comparing the relative error for the computed area of the
-    intersection of two quadratic B\'{e}zier triangles. In one method, the
-    intersection boundary is fully specified as the union of B\'{e}zier curve
-    segments and the area is computed correctly to machine precision. In the
-    other, the curved edges are approximated by polygonal paths and the
-    intersection of the resulting polygons is computed.}
-  \label{fig:polygon-vs-curved-intersection}
-\end{figure}
-
 First a discussion of a method not used. A somewhat simple approach would be
 be to use polygonal approximation. I.e. approximate the boundary of each
 B\'{e}zier triangle with line segments, intersect the resulting polygons,
 triangulate the intersection polygon(s) and then numerically integrate
 on each triangulated cell. However, this approach is prohibitively inefficient.
-For example, consider the curved polygon in
-Figure~\ref{fig:polygon-vs-curved}. Computing the area of \(\mathcal{P}\)
-can be done via an integral: \(\int_{\mathcal{P}} 1 \, dV\).
-By using the actual curved boundary, this integral can be computed with
-relative error (the dashed line in the bottom right subplot) on the order
-of machine precision \(\bigO{\mach}\). On the other hand, approximating
-each side of \(\mathcal{P}\) with \(N\) line segments, the relative error is
-\(\bigO{1/N^2}\). (For example, if \(N = 2\) an edge curve \(b(s, 0)\) would be
-replaced by segments connecting \(b(0, 0), b(1/2, 0)\) and \(b(1, 0)\), i.e.
-\(N + 1\) equally spaced parameters.) This means that in order to perform as
-well as an \emph{exact} quadrature used in the curved case, we'd
-need \(N = \bigO{1/\sqrt{\mach}}\). Compute the area of \(\mathcal{P}\)
-in this way assumes that \(\mathcal{P}\) is already known.
-If instead only the B\'{e}zier triangles in the intersection are known, as
-in Figure~\ref{fig:polygon-vs-curved-intersection}, the polygonal approach
-suffers from the same inefficiency.
+For example, consider computing the area of \(\mathcal{P}\) via an
+integral: \(\int_{\mathcal{P}} 1 \, dV\). By using the actual curved
+boundaries of each element, this integral can be computed with relative
+error on the order of machine precision \(\bigO{\mach}\). On the other hand,
+approximating each side of \(\mathcal{P}\) with \(N\) line segments, the
+relative error is \(\bigO{1/N^2}\). (For example, if \(N = 2\) an edge
+curve \(b(s, 0)\) would be replaced by segments connecting \(b(0, 0),
+b(1/2, 0)\) and \(b(1, 0)\), i.e. \(N + 1\) equally spaced parameters.) This
+means that in order to perform as well as an \emph{exact} quadrature used in
+the curved case, we'd need \(N = \bigO{1/\sqrt{\mach}}\).
 
 Since polygonal approximation is prohibitively expensive,
 we work directly with curved edges and compute integrals on a regular
@@ -922,7 +893,7 @@ piecewise smooth parametric curve:
 \begin{equation}
 \partial \mathcal{P} = C_1 \cup \cdots \cup C_n.
 \end{equation}
-This can be thought of as a polygon with \(n\)-sides that happens to
+This can be thought of as a polygon with \(n\) sides that happens to
 have curved edges.
 
 Quadrature rules for straight sided polygons have been
@@ -1031,7 +1002,7 @@ This is because for these shape functions \(F = \phi_0 \phi_1\) will be
 polynomial on \(\reals^2\) and so will \(H\) and \(V\) and since each curve
 \(C\) is a B\'{e}zier curve segment, the components are also polynomials.
 If the shape functions are in the pre-image basis, then \(F\) won't in general
-be polynomial, hence the quadrature rules can only be approximate.
+be polynomial, hence standard quadrature rules can't be exact.
 
 To evaluate \(G\), we must also evaluate \(H\) and \(V\) numerically.
 For example, since \(H(0, y) \equiv 0\),
