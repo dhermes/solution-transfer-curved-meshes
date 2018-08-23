@@ -14,8 +14,8 @@ The problem of solution transfer between meshes arises frequently in
 computational physics, e.g. in Lagrangian methods where remeshing
 occurs. The interpolation process must be conservative, i.e. it
 must conserve physical properties, such as mass. We extend previous
-works --- which described the solution transfer process for straight sided
-unstructured meshes --- by considering high-order isoparametric meshes
+works &mdash; which described the solution transfer process for straight sided
+unstructured meshes &mdash; by considering high-order isoparametric meshes
 with curved elements. The implementation is highly reliant on accurate
 computational geometry routines for evaluating points on and
 intersecting B&#xe9;zier curves and triangles.
