@@ -126,38 +126,17 @@ multiple disjoint regions.
 
 \subsection{Lagrangian Methods}
 
-\begin{figure}
-  \includegraphics{simple_transport.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{The solution to \(u_t + u_x = 0, \; u(x, 0) = x^3\) plotted in
-    the \(xu\)-plane. Demonstrates simple transport of
-    the solution.}
-  \label{fig:simple-transport}
-\end{figure}
-
-The method of characteristics helps transform partial differential equations
-into ordinary differential equations by dividing the physical domain into
-a family of curves. For example, the simple transport equation
-\begin{equation}\label{eq:simple-transport}
-u_t + c u_x = 0
-\end{equation}
-can be transformed when restricting to the family of lines
-\(x(t) = x_0 + c t\). On these lines \(u(x(t), t)\) is constant, by
-construction, and so the solution is ``transported'' from \(u(x_0, 0)\)
-along each characteristic line (Figure~\ref{fig:simple-transport}).
-
-Motivated by this, \emph{Lagrangian methods} treat each point in the
+Lagrangian methods treat each point in the
 physical domain as a ``particle'' which moves along a characteristic curve
 over time and then monitor values associated with the particle (heat / energy,
 velocity, pressure, density, concentration, etc.). They are an effective way
 to solve PDEs, even with higher order or non-linear terms.
-For example, if a diffusion term is added to~\eqref{eq:simple-transport}
+For example, the simple transport equation with a diffusion term
 \begin{equation}
 u_t + c u_x - \eps u_{xx} = 0
 \end{equation}
-then the same characteristics can be used, but the value
-along each characteristic is no longer constant; instead it satisfies the
+has characteristics \(x(t) = x_0 + ct\) that only correspond to the
+first order terms. The value then satisfies the
 ODE \(\frac{d}{dt} u(x(t), t) = \eps u_{xx}\).
 
 This approach transforms the numerical solution of PDEs into a family of
@@ -195,20 +174,8 @@ The characteristics \(y(t) = y_0 + t, x(t) = x_0 +
 \left(y(t)^3 - y_0^3\right)/3\)
 distort the mesh considerably after just one second.
 
-\begin{figure}
-  \includegraphics{distortion_remesh.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{Remeshing a domain after distortion caused by particle motion
-    along the velocity field \(\left[ y^2 \; 1 \right]^T\) from \(t = 0\)
-    to \(t = 1\).}
-  \label{fig:distortion-remesh}
-\end{figure}
-
 To deal with distortion, one can allow the mesh to adapt in between time
-steps. For example, Figure~\ref{fig:distortion-remesh} shows an example
-remeshing of the domain.
-In addition to improving mesh quality, mesh
+steps. In addition to improving mesh quality, mesh
 adaptivity can be used to dynamically focus computational effort to resolve
 sensitive features of a numerical solution. From \cite{Iske2004}
 \begin{quote}
@@ -227,22 +194,12 @@ mesh will distort.
 
 \subsection{High-order Meshes}
 
-\begin{figure}
-  \includegraphics{main_figure27.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{Comparing straight sided meshes to a curved mesh when approximating
-    the unit disc in \(\reals^2\).}
-  \label{fig:curved-vs-straight-mesh}
-\end{figure}
-
 To allow for greater geometric flexibility and for high order of convergence,
 curved mesh elements can be used in the finite element method. Though the
 complexity of a method can steeply rise when allowing curved elements, the
 trade for high-order convergence can be worth it. (See \cite{Wang2013} for
 more on high-order CFD methods.) Curved meshes can typically
-represent a given geometry with far fewer elements than a straight sided mesh
-(for example, Figure~\ref{fig:curved-vs-straight-mesh}).
+represent a given geometry with far fewer elements than a straight sided mesh.
 The increase in accuracy also allows for the use of fewer elements, which
 in turn can also facilitate a reduction in the overall computation time.
 
