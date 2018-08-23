@@ -61,7 +61,7 @@ unstructured meshes --- by considering high-order isoparametric meshes
 with curved elements.
 \\ \\
 \noindent \emph{Keywords}: Remapping, Curved Meshes, Lagrangian,
-Solution Transfer, Numerical analysis
+Solution Transfer, Discontinuous Galerkin
 \end{abstract}
 
 \tableofcontents
@@ -122,7 +122,9 @@ cases, consider the problem of intersecting an element from the donor mesh
 with an element from the target mesh. If the elements are triangles, the
 intersection is either a convex polygon or has measure zero. If the elements
 are curved, the intersection can be non-convex and can even split into
-multiple disjoint regions.
+multiple disjoint regions. In \cite{Qiu2018}, a related problem is considered
+where squares are allowed to curve along characteristics and the solution is
+remapped onto a regular square grid.
 
 \subsection{Lagrangian Methods}
 
