@@ -764,10 +764,10 @@ The first subproblem is discussed in
 Section~\ref{subsec:intersect-bez-tri}
 and the curved polygon region(s) of intersection have been described
 in Section~\ref{subsec:curved-polygons}. The second will be considered
-in Section~\ref{subsec:advancing-front} and the third in
+in Section~\ref{subsec:expanding-front} and the third in
 Section~\ref{subsec:integration-on-curved} below.
 
-\subsection{Advancing Front}\label{subsec:advancing-front}
+\subsection{Expanding Front}\label{subsec:expanding-front}
 
 \begin{figure}
   \includegraphics{main_figure13.pdf}
@@ -803,7 +803,7 @@ to find an intersecting element in the donor mesh
 \end{figure}
 
 Once we have such a match, we use the connectivity graph of the
-donor mesh to perform a breadth first search
+donor mesh to perform a breadth-first search
 for neighbors that also intersect the target
 element \(\mathcal{T}\) (Figure~\ref{fig:target-elt-overlap-extra-layer}).
 This search takes \(\bigO{1}\) time. It's also worthwhile to keep the first
@@ -1135,9 +1135,9 @@ more efficient. Additionally, having a global transfer algorithm
 allows for remeshing to be done less frequently.
 
 The algorithm breaks down into three core subproblems: B\'{e}zier triangle
-intersection, an advancing front for intersecting elements and
+intersection, a expanding front for intersecting elements and
 integration on curved polygons. The inherently local nature of the
-advancing front allows the algorithm to be parallelized via domain
+expanding front allows the algorithm to be parallelized via domain
 decomposition with little data shared between processes. By
 restricting integration to the intersection of elements from the
 target and donor meshes, the algorithm can accurately transfer
