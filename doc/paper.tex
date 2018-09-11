@@ -133,13 +133,6 @@ physical domain as a ``particle'' which moves along a characteristic curve
 over time and then monitor values associated with the particle (heat / energy,
 velocity, pressure, density, concentration, etc.). They are an effective way
 to solve PDEs, even with higher order or non-linear terms.
-For example, the simple transport equation with a diffusion term
-\begin{equation}
-u_t + c u_x - \eps u_{xx} = 0
-\end{equation}
-has characteristics \(x(t) = x_0 + ct\) that only correspond to the
-first order terms. The value then satisfies the
-ODE \(\frac{d}{dt} u(x(t), t) = \eps u_{xx}\).
 
 This approach transforms the numerical solution of PDEs into a family of
 numerical solutions to many independent ODEs. It allows the use of familiar
