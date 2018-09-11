@@ -39,7 +39,7 @@
 \usepackage[labelfont=bf]{caption}
 
 \theoremstyle{definition}
-\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
 
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\qed}{\(\blacksquare\)}
@@ -955,9 +955,9 @@ will not be defined at \(b(s, t) \not\in \mathcal{T}_0\) (similarly for
 makes the integrand non-smooth since for inverted elements
 \(\det(Db)\) takes both signs. If the shape functions are from the
 global coordinates basis, then tessellation can be used via an
-application of Lemma~\ref{lemma:bad-triangle}, however this involves
+application of Theorem~\ref{theorem:bad-triangle}, however this involves
 more computation than just applying Green's theorem along
-\(\partial \mathcal{P}\). By applying the lemma, inverted elements may
+\(\partial \mathcal{P}\). By applying the theorem, inverted elements may
 be used in a tessellation, for example by introducing artificial
 diagonals from a vertex as in Figure~\ref{fig:tessellated-curved-polygon}.
 In the global coordinates basis, \(F = \phi_0 \phi_1\) \emph{can}
@@ -1485,7 +1485,7 @@ system would be overdetermined.
 
 \section{Allowing Tessellation with Inverted Triangles}
 
-\begin{lemma}\label{lemma:bad-triangle}
+\begin{theorem}\label{theorem:bad-triangle}
 Consider three smooth curves
 \(b_0, b_1, b_2\) that form a closed loop: \(b_0(1) = b_1(0)\),
 \(b_1(1) = b_2(0)\) and \(b_2(1) = b_0(0)\).
@@ -1504,7 +1504,7 @@ for antiderivatives that satisfy \(H_x = V_y = F\).
 
 When \(\det(D\varphi) > 0\), this is just the change of variables
 formula combined with Green's theorem.
-\end{lemma}
+\end{theorem}
 
 \begin{proof}
 Let \(x(s, t)\) and \(y(s, t)\) be the components of \(\varphi\). Define
