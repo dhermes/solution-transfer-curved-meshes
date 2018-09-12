@@ -145,29 +145,10 @@ are treated like particles) and the mesh ``travels''.
 
 \subsection{Remeshing and Adaptivity}
 
-\begin{figure}
-  \includegraphics{mesh_distortion.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{Distortion of a regular mesh caused by particle motion along
-    the velocity field \(\left[ y^2 \; 1 \right]^T\) from \(t = 0\)
-    to \(t = 1\) with \(\Delta t = 1/4\).}
-  \label{fig:mesh-distortion}
-\end{figure}
-
 A flow-based change to a mesh can cause problems if it causes the mesh to
 leave the domain being analyzed or if it distorts the mesh until the element
 quality is too low in some mesh elements. Over enough time, the mesh can
 even tangle (i.e. elements begin to overlap).
-For an example of such distortion (Figure~\ref{fig:mesh-distortion}),
-consider a PDE of the form
-\begin{equation}\label{eq:non-rigid-characteristics}
-u_t + \left[ \begin{array}{c} y^2 \\ 1 \end{array}\right] \cdot \nabla u +
-  F\left(u, \nabla u\right) = 0.
-\end{equation}
-The characteristics \(y(t) = y_0 + t, x(t) = x_0 +
-\left(y(t)^3 - y_0^3\right)/3\)
-distort the mesh considerably after just one second.
 
 To deal with distortion, one can allow the mesh to adapt in between time
 steps. In addition to improving mesh quality, mesh
@@ -215,7 +196,8 @@ it's own right. However, even in such cases, a Lagrangian method must either
 curve the mesh or information about the flow of the geometry will be lost.
 Figure~\ref{fig:element-distortion} shows what happens to a given
 quadratic element as the nodes move along the
-characteristics from~\eqref{eq:non-rigid-characteristics}.
+characteristics given by the velocity field
+\(\left[ \begin{array}{c c} y^2 & 1 \end{array}\right]^T\).
 This element uses the triangle vertices and edge
 midpoints to determine the shape functions. However, as the nodes move
 with the flow, the midpoints are no longer on the lines connecting
