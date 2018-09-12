@@ -68,8 +68,8 @@ Solution Transfer, Discontinuous Galerkin
 
 \section{Introduction}
 
-In this paper, an algorithm for conservative solution transfer between curved
-meshes will be described. This has practical applications to many methods in
+Solution transfer between meshes is a common problem that
+has practical applications to many methods in
 computational physics. For example, by allowing the underyling
 computational domain to change during a simulation, computational
 effort can be focused dynamically to resolve sensitive features
@@ -249,7 +249,8 @@ via the divergence theorem to reduce the complexity of the problem.
   \label{fig:partially-overlapping}
 \end{figure}
 
-The method described in this paper only applies to meshes in \(\reals^2\).
+In this paper, an algorithm for conservative solution transfer between curved
+meshes will be described. This method applies to meshes in \(\reals^2\).
 Application to meshes in \(\reals^3\) is a direction for future research,
 though the geometric kernels (see Chapter~\ref{sec:bezier-intersection})
 become significantly more challenging to describe and implement. In
