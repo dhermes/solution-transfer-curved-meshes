@@ -126,8 +126,6 @@ multiple disjoint regions. In \cite{Qiu2018}, a related problem is considered
 where squares are allowed to curve along characteristics and the solution is
 remapped onto a regular square grid.
 
-\subsection{Lagrangian Methods}
-
 Lagrangian methods treat each point in the
 physical domain as a ``particle'' which moves along a characteristic curve
 over time and then monitor values associated with the particle (heat / energy,
@@ -142,8 +140,6 @@ methods\footnote{In Eulerian methods, the mesh is fixed.}.
 When solving PDEs on unstructured meshes
 with Lagrangian methods, the nodes move (since they
 are treated like particles) and the mesh ``travels''.
-
-\subsection{Remeshing and Adaptivity}
 
 A flow-based change to a mesh can cause problems if it causes the mesh to
 leave the domain being analyzed or if it distorts the mesh until the element
@@ -167,8 +163,6 @@ discarded mesh to the mesh produced by the remeshing process. Without
 the ability to change the mesh, Lagrangian methods (or, more generally,
 ALE \cite{Hirt1974}) would not be useful, since after a limited time the
 mesh will distort.
-
-\subsection{High-order Meshes}
 
 To allow for greater geometric flexibility and for high order of convergence,
 curved mesh elements can be used in the finite element method. Though the
@@ -206,8 +200,6 @@ solution, the edges can instead curve so that the midpoint nodes remain
 halfway between (i.e. half of the parameter space) the vertex nodes along
 an edge.
 
-\subsection{Multiphysics and Comparing Methods}
-
 In multiphysics simulations, a problem is partitioned into physical components.
 This partitioning can apply to both the physical domain (e.g. separating a
 solid and fluid at an interface) and the simulation solution itself (e.g.
@@ -223,8 +215,6 @@ mesh and taking the difference. Or, if the same method is used on
 different meshes of the same domain, the resulting computed solutions can
 be compared via solution transfer. Or, if two different methods use two
 different meshes of the same domain.
-
-\subsection{Local versus Global Transfer}
 
 Conservative solution transfer has been around since the advent of ALE,
 and as a result much of the existing literature focuses on mesh-mesh
@@ -248,8 +238,6 @@ added flexibility reduces timestep restrictions since it allows remeshing
 to be done less often. In \cite{Dukowicz1984, Dukowicz1987}, a global
 transfer is enabled by transforming volume integrals to surface integrals
 via the divergence theorem to reduce the complexity of the problem.
-
-\subsection{Limitations}
 
 \begin{figure}
   \includegraphics{main_figure29.pdf}
@@ -296,8 +284,6 @@ must be moved as well in a way that is consistent with the standard
 nodes that define the element. The solution transfer method described here
 does not provide a way either to determine quadrature points on a
 target mesh or to map the field onto known quadrature points.
-
-\subsection{Overview}
 
 This paper is organized as follows. Section~\ref{sec:preliminaries}
 establishes common notation and reviews basic results relevant to the
