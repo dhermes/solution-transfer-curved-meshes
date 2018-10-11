@@ -103,12 +103,13 @@ However, both to allow for greater
 geometric flexibility and for high order of convergence, this paper will
 consider the case of curved isoparametric\footnote{I.e. the degree of the
 discrete field on the mesh is same as the degree of the shape functions that
-determine the mesh.} meshes. Allowing curved geometries is useful since
-many practical
-problems involve geometries that change over time, such as flapping flight
-or fluid-structure interactions. In addition, high-order CFD methods
+determine the mesh.} meshes. High-order methods
 have the ability to produce highly accurate solutions
-with low dissipation and low dispersion error.
+with low dissipation and low dispersion error, however, they typically
+require curved meshes. In addition, curved elements have
+advantages in problems that involve geometries that change over time,
+such as flapping flight or fluid-structure interactions. 
+
 
 The \emph{common refinement} approach in
 \cite{Jiao2004} is used to compare several methods for solution transfer across
@@ -130,8 +131,7 @@ Lagrangian methods treat each point in the
 physical domain as a ``particle'' which moves along a characteristic curve
 over time and then monitor values associated with the particle (heat / energy,
 velocity, pressure, density, concentration, etc.). They are an effective way
-to solve PDEs, even with higher order or non-linear terms.
-
+to solve PDEs, even with higher order or non-linear terms \cite{MR3023731}.
 This approach transforms the numerical solution of PDEs into a family of
 numerical solutions to many independent ODEs. It allows the use of familiar
 and well understood ODE solvers. In addition, Lagrangian methods often
@@ -140,7 +140,6 @@ methods\footnote{In Eulerian methods, the mesh is fixed.}.
 When solving PDEs on unstructured meshes
 with Lagrangian methods, the nodes move (since they
 are treated like particles) and the mesh ``travels''.
-
 A flow-based change to a mesh can cause problems if it causes the mesh to
 leave the domain being analyzed or if it distorts the mesh until the element
 quality is too low in some mesh elements. Over enough time, the mesh can
