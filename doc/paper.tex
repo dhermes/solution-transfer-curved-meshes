@@ -1,4 +1,4 @@
-\documentclass[letterpaper,10pt]{article}
+\documentclass[oneside, reqno]{amsart}
 
 \usepackage[margin=1in]{geometry}
 
@@ -6,8 +6,6 @@
 \usepackage{bm}
 %% https://tex.stackexchange.com/a/396829/32270
 \allowdisplaybreaks
-%% H/T: https://tex.stackexchange.com/a/71153/32270
-\usepackage[nottoc,notlot,notlof]{tocbibind}
 
 \usepackage[usenames, dvipsnames]{color}
 \usepackage{hyperref}
@@ -25,11 +23,6 @@
 \usepackage{embedfile}
 \embedfile{\jobname.tex}
 
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\lhead{High-order Solution Transfer between Curved Triangular Meshes}
-\rhead{Danny Hermes, Per-Olof Persson}
-
 %% H/T: https://tex.stackexchange.com/a/28334/32270
 \usepackage{chngcntr}
 \counterwithin{figure}{section}
@@ -41,7 +34,6 @@
 \theoremstyle{definition}
 \newtheorem{theorem}{Theorem}[section]
 
-\renewcommand{\headrulewidth}{0pt}
 \renewcommand{\qed}{\(\blacksquare\)}
 \newcommand{\reals}{\mathbf{R}}
 \newcommand{\eps}{\varepsilon}
@@ -50,6 +42,17 @@
 \newcommand{\utri}{\mathcal{U}}
 
 \begin{document}
+
+\title{High-order Solution Transfer between Curved Triangular Meshes}
+
+\author{Danny Hermes}
+\address{UC Berkeley, 970 Evans Hall \#3840, Berkeley, CA 94720-3840 USA}
+\email{dhermes@berkeley.edu}
+
+\author{Per-Olof Persson}
+\address{UC Berkeley, 970 Evans Hall \#3840, Berkeley, CA 94720-3840 USA}
+\email{persson@berkeley.edu}
+\urladdr{persson.berkeley.edu}
 
 \begin{abstract}
 \noindent The problem of solution transfer between meshes arises frequently in
@@ -68,7 +71,7 @@ across two families of meshes.
 Solution Transfer, Discontinuous Galerkin
 \end{abstract}
 
-\tableofcontents
+\maketitle
 
 \section{Introduction}
 
