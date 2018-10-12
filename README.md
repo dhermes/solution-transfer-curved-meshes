@@ -1,4 +1,4 @@
-# High-order Solution Transfer between Curved Meshes
+# High-order Solution Transfer between Curved Triangular Meshes
 
 This is work with Per-Olof Persson.
 
@@ -16,7 +16,11 @@ occurs. The interpolation process must be conservative, i.e. it
 must conserve physical properties, such as mass. We extend previous
 works &mdash; which described the solution transfer process for straight sided
 unstructured meshes &mdash; by considering high-order isoparametric meshes
-with curved elements.
+with curved elements. To facilitate solution transfer, we numerically
+integrate the product of shape functions via Green's theorem along the
+boundary of the intersection of two curved elements. We perform a numerical
+experiment and confirm the expected accuracy by transferring test fields
+across two families of meshes.
 
 ## Installation
 

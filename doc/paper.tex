@@ -27,7 +27,7 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-\lhead{High-order Solution Transfer between Curved Meshes}
+\lhead{High-order Solution Transfer between Curved Triangular Meshes}
 \rhead{Danny Hermes, Per-Olof Persson}
 
 %% H/T: https://tex.stackexchange.com/a/28334/32270
@@ -58,7 +58,11 @@ occurs. The interpolation process must be conservative, i.e. it
 must conserve physical properties, such as mass. We extend previous
 works --- which described the solution transfer process for straight sided
 unstructured meshes --- by considering high-order isoparametric meshes
-with curved elements.
+with curved elements. To facilitate solution transfer, we numerically
+integrate the product of shape functions via Green's theorem along the
+boundary of the intersection of two curved elements. We perform a numerical
+experiment and confirm the expected accuracy by transferring test fields
+across two families of meshes.
 \\ \\
 \noindent \emph{Keywords}: Remapping, Curved Meshes, Lagrangian,
 Solution Transfer, Discontinuous Galerkin
@@ -108,8 +112,7 @@ have the ability to produce highly accurate solutions
 with low dissipation and low dispersion error, however, they typically
 require curved meshes. In addition, curved elements have
 advantages in problems that involve geometries that change over time,
-such as flapping flight or fluid-structure interactions. 
-
+such as flapping flight or fluid-structure interactions.
 
 The \emph{common refinement} approach in
 \cite{Jiao2004} is used to compare several methods for solution transfer across
@@ -567,6 +570,8 @@ be able to be described by a mapping from a simple space like
 \(\utri\).
 
 \section{Galerkin Projection}\label{sec:galerkin-projection}
+
+\subsection{Linear System for Projection}
 
 \begin{figure}
   \includegraphics{main_figure00.pdf}
@@ -1081,8 +1086,11 @@ the error and no convergence will be observed.
 
 Convergence results are shown in Figure~\ref{fig:composite-errors}
 and confirm the expected orders. Since \(\zeta_1\) is a cubic polynomial,
-the solution transfer on the cubic mesh should be \emph{exact}, so there
-is a certain minimum threshold that can be reached.
+one might expect the solution transfer on the cubic mesh to be \emph{exact}.
+This expectation would hold in the superparametric case (i.e. where the
+elements are straight sided but the shape functions are higher degree).
+However, when the elements aren't straight side the isoparametric mapping
+changes the underlying function space.
 
 \section{Conclusion}
 
@@ -1107,7 +1115,7 @@ both continuous and discontinuous fields.
 As mentioned in the preceding chapters, there are several research
 directions possible to build upon the solution transfer algorithm.
 The usage of Green's theorem nicely extends to \(\reals^3\) via
-Stoke's theorem, but the B\'{e}zier triangle intersection algorithm
+Stokes' theorem, but the B\'{e}zier triangle intersection algorithm
 is specific to \(\reals^2\). The equivalent B\'{e}zier tetrahedron
 intersection algorithm is significantly more challenging.
 
