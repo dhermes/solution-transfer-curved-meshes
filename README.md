@@ -8,6 +8,9 @@ into a standalone [paper][3].
 This repository is laid out in a manner described in
 [Good Enough Practices in Scientific Computing][2].
 
+The content itself has been uploaded to the [arXiv][4] and was submitted to
+the journal [CAMCoS][5] on October 12, 2018.
+
 ## Abstract
 
 The problem of solution transfer between meshes arises frequently in
@@ -46,3 +49,5 @@ To run ``nox -s build_tex`` (i.e. to build the PDF), ``pdflatex`` and
 [1]: https://github.com/dhermes/phd-thesis
 [2]: https://arxiv.org/abs/1609.00037
 [3]: doc/paper.pdf
+[4]: https://arxiv.org/abs/1810.06806
+[5]: https://msp.org/camcos/about/journal/about.html
