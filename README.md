@@ -1,6 +1,6 @@
 # High-order Solution Transfer between Curved Triangular Meshes
 
-This is work with Per-Olof Persson.
+This is work with [Per-Olof Persson][6].
 
 This originally appeared in my [thesis][1] and is now split out
 into a standalone [paper][3].
@@ -51,3 +51,4 @@ To run ``nox -s build_tex`` (i.e. to build the PDF), ``pdflatex`` and
 [3]: doc/paper.pdf
 [4]: https://arxiv.org/abs/1810.06806
 [5]: https://msp.org/camcos/about/journal/about.html
+[6]: https://popersson.github.io/
