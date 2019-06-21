@@ -32,7 +32,7 @@ computations is written in Python. To run the code, Python 3.7
 should be installed, along with ``nox-automation``:
 
 ```
-python -m pip install --upgrade nox-automation
+python -m pip install --upgrade 'nox-automation == 0.19.1'
 ```
 
 Once installed, the various build jobs can be listed. For example:
