@@ -226,7 +226,8 @@ across these meshes for comparison.
 
 Conservative solution transfer has been around since the advent of ALE,
 and as a result much of the existing literature focuses on mesh-mesh
-pairs that will occur during an ALE-based simulation. When flow-based
+pairs that will occur during an ALE-based simulation. Many ALE methods
+modify the mesh during simulation: when flow-based
 mesh distortion occurs, elements are typically ``flipped'' (e.g. a
 diagonal is switched in a pair of elements) or elements are subdivided
 or combined. These operations are inherently local, hence the solution
