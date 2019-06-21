@@ -20,7 +20,9 @@ import seaborn
 
 # As of ``0.9.0``, this palette has (BLUE, ORANGE, GREEN, RED, PURPLE, BROWN).
 _COLORS = seaborn.color_palette(palette="deep", n_colors=6)
+BLUE = _COLORS[0]
 GREEN = _COLORS[2]
+PURPLE = _COLORS[4]
 del _COLORS
 TEXT_SIZE = 10
 TICK_SIZE = 7

@@ -18,6 +18,7 @@ import plot_utils
 
 
 ALPHA = 0.375
+NODE_COLORS = (plot_utils.BLUE, plot_utils.PURPLE, "black")
 
 
 def point_on_characteristic(xv, yv, t):
@@ -95,24 +96,23 @@ def distort_cubic_tri():
         surface = bezier.Surface.from_nodes(bezier_nodes)
         surface.plot(256, ax=ax_below)
 
-        # Add "nodes" to both plots.
-        for ax in (ax_top, ax_below):
-            ax.plot(
-                xt,
-                yt,
-                color="black",
-                marker="o",
-                linestyle="none",
-                markersize=4,
-            )
+        # Add "nodes" to bottom plot.
+        ax_below.plot(
+            xt,
+            yt,
+            color=NODE_COLORS[index],
+            marker="o",
+            linestyle="none",
+            markersize=4,
+        )
         # Add shadow "nodes" to top row for "next" plots.
-        for next_index in range(index + 1, 3):
+        for next_index in range(index, 3):
             ax = all_axes[0, next_index]
             ax.plot(
                 xt,
                 yt,
-                color="black",
-                alpha=0.5 - 0.25 * (next_index - index - 1),
+                color=NODE_COLORS[index],
+                alpha=0.75,
                 marker="o",
                 linestyle="none",
                 markersize=4,
