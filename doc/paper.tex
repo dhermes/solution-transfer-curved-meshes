@@ -589,7 +589,7 @@ be able to be described by a mapping from a simple space like
 
 Consider a donor mesh \(\mathcal{M}_D\) with shape function basis
 \(\phi_D^{(j)}\) and a known field \(\bm{q}_D = \sum_j d_j \phi_D^{(j)}\)
-\footnote{This is somewhat a simplification. In the CG case,
+\footnote{This is somewhat a simplification. In CG,
 some coefficients will be paired with multiple shape functions, such
 as the coefficient at a vertex node.}
 and a
@@ -650,7 +650,7 @@ between the target and donor meshes:
 \end{equation}
 Boundary conditions can be imposed on the system by fixing some coefficients,
 but that is equivalent to removing some of the basis functions which may
-in term make the projection non-conservative. This is because the removed
+in turn make the projection non-conservative. This is because the removed
 basis functions may have been used in \(1 = \sum_j u_j \phi_{T}^{(j)}\).
 
 Computing \(M_T\) is fairly straightforward since the (bidirectional) mapping
