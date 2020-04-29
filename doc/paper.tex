@@ -168,8 +168,11 @@ In either case, the change in the
 mesh between time steps requires transferring a known solution on the
 discarded mesh to the mesh produced by the remeshing process. Without
 the ability to change the mesh, Lagrangian methods (or, more generally,
-ALE \cite{Hirt1974}) would not be useful, since after a limited time the
-mesh will distort.
+ALE\footnote{ALE, or Arbitrary Lagrangian-Eulerian methods are not constrained
+by a fixed computational mesh (the Eulerian approach) or a fixed fluid flow
+(the Lagrangian approach) and typically combine the benefits of both approaches
+to create composite methods} \cite{Hirt1974}) would not be useful, since after '
+a limited time the mesh will distort.
 
 To allow for greater geometric flexibility and for high order of convergence,
 curved mesh elements can be used in the finite element method. Though the
