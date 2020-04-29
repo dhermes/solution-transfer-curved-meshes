@@ -804,7 +804,8 @@ the remeshing process so a correspondence already exists. If a full
 mapping from donor to target mesh exists, the process of computing
 \(M_T\) and \(M_{TD} \bm{d}\) can be fully parallelized across
 elements of the target mesh, or even across shape functions
-\(\phi_T^{(j)}\).
+\(\phi_T^{(j)}\). Spatial binning techniques for mesh elements could also be
+used to improve the initial brute-force search as in \cite{Weiss16_imr}.
 
 \begin{figure}
   \includegraphics{main_figure15.pdf}
