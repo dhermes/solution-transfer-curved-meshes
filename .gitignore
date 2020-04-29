@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 
 # Packages
+.venv
 *.egg
 *.egg-info
 dist/
