@@ -6,17 +6,18 @@ triangular meshes. The authors use Bezier curves to represent the curved
 edges of the meshes. Their procedure consists of three steps:
 
 1. Finding candidate source cells that potentially intersect each target mesh
-  This is done by a brute force search for the first pair and then a walking
-  algorithm to find candidates for the rest of the target triangles. They
-  say their method is O(N_d + N_t) which is better than what would be obtained
-  by a tree search - O(N_t*log(N_d)) for sufficiently large meshes depending on
-  the constants.
+   This is done by a brute force search for the first pair and then a walking
+   algorithm to find candidates for the rest of the target triangles. They
+   say their method is O(N_d + N_t) which is better than what would be obtained
+   by a tree search - O(N_t*log(N_d)) for sufficiently large meshes depending
+   on the constants.
 2. Computing the domains of intersection between the Bezier triangles
-  This procedure detailed is the Appendix A.1/A.2. First they use a subdivision
-  of Bezier curves to localize intervals in which intersection of each pair of
-  lies. They then use Newtwon's method to find the actual point of intersection
-  which they point out has trouble for nearly tangential cases. No particular
-  fall back solution is offered for cases where Newton's method has trouble.
+   This procedure detailed is the Appendix A.1/A.2. First they use a
+   subdivision of Bezier curves to localize intervals in which intersection of
+   each pair of lies. They then use Newtwon's method to find the actual point
+   of intersection which they point out has trouble for nearly tangential
+   cases. No particular fall back solution is offered for cases where Newton's
+   method has trouble.
 3. Computing the matrices required to solve for the target field
    This involves integrating of weak forms of the integrals over the
    intersection domains of the donor and target triangles. This is done by
