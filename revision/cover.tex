@@ -1,4 +1,3 @@
-%basic cover letter template
 \documentclass{letter}
 \usepackage{amssymb,amsmath}
 \usepackage{graphicx}
@@ -10,7 +9,6 @@
 \textwidth=5.9in
 \topmargin=-.5in
 \textheight=9in
-
 
 \renewcommand{\rq}[1]{\begin{addmargin}[2em]{2em}
 \it
@@ -25,7 +23,6 @@
 \newcommand {\Z}{\mathbb{Z}}
 
 \newcommand {\sub}{\mbox{SB}}
-
 
 \begin{document}
 \begin{letter}{}
@@ -61,21 +58,28 @@ Berkeley, CA, 94720-3840, USA\\
 
 \begin{itemize} \renewcommand\labelitemi{--}
 
-\item \rq{This paper presents a L2 Galerkin projection method for a globally conservative transfer of solutions between two higher-order curvilinear triangular meshes. The authors use Bezier curves to represent the curved edges of the meshes. Their procedure consists of three steps: \\
+\item \rq{
+This paper presents a L2 Galerkin projection method for a globally
+conservative transfer of solutions between two higher-order curvilinear
+triangular meshes. The authors use Bezier curves to represent the curved
+edges of the meshes. Their procedure consists of three steps: \\
 \ \\
 1. Finding candidate source cells that potentially intersect each target mesh
-  This is done by a brute force search for the first pair and then a walking
-  algorithm to find candidates for the rest of the target triangles. They
-  say their method is \(\mathcal{O}\left(N_d + N_t\right)\) which is better than what would be obtained
-  by a tree search - \(\mathcal{O}\left(N_t \log\left(N_d\right)\right)\) for sufficiently large meshes depending on
-  the constants.\\
+   This is done by a brute force search for the first pair and then a walking
+   algorithm to find candidates for the rest of the target triangles. They
+   say their method is \(\mathcal{O}\left(N_d + N_t\right)\) which is better
+   than what would be obtained
+   by a tree search - \(\mathcal{O}\left(N_t \log\left(N_d\right)\right)\) for
+   sufficiently large meshes depending on
+   the constants.\\
 \ \\
 2. Computing the domains of intersection between the Bezier triangles
-  This procedure detailed is the Appendix A.1/A.2. First they use a subdivision
-  of Bezier curves to localize intervals in which intersection of each pair of
-  lies. They then use Newtwon's method to find the actual point of intersection
-  which they point out has trouble for nearly tangential cases. No particular
-  fall back solution is offered for cases where Newton's method has trouble.\\
+   This procedure detailed is the Appendix A.1/A.2. First they use a
+   subdivision of Bezier curves to localize intervals in which intersection of
+   each pair of lines. They then use Newtwon's method to find the actual point
+   of intersection which they point out has trouble for nearly tangential
+   cases. No particular fall back solution is offered for cases where Newton's
+   method has trouble.\\
 \ \\
 3. Computing the matrices required to solve for the target field
    This involves integrating of weak forms of the integrals over the
@@ -93,13 +97,14 @@ the difficulty in extending the technique to 3D. \\
 The paper is definitely one of a handful to tackle the difficult topic
 of remapping between higher order meshes. Notably, the authors have
 omitted to mention the work of Anderson, Dobrev, Kolev and Rieben on
-"Monotonicity oin High-Order Curviliniear Finite Element ALE Remap."
+``Monotonicity oin High-Order Curviliniear Finite Element ALE Remap."
 It is certainly an important topic, one that has constrained the use
 of High-order elements for ALE simulations.}
 
 Thank you
 
-\item \rq{The paper is generally well written and presents a clear mathematical
+\item \rq{
+The paper is generally well written and presents a clear mathematical
 description of the methods used. Only the introduction is a little
 meandering and at times repeats itself - this could use some
 tightening up.}
@@ -108,7 +113,8 @@ TODO Per: Clear up / shorten intro
 
 \item \rq{
 Suggestions for improvement:
-1. Incorporate A.1 and A.2 into main text. These are essential parts of the procedure and there is no good reason to relegate them to the Appendix.}
+1. Incorporate A.1 and A.2 into main text. These are essential parts of the
+procedure and there is no good reason to relegate them to the Appendix.}
 
 Won't do it
 
@@ -120,18 +126,18 @@ conservation error, and L2 norm of the approximation error.}
 Danny looks into BS. (boundary something?)
 
 \item \rq{
-  3. Some discussion of bounds preservation or monotonicity of the solution should be incorporated (important for non-physical solutions)}
+3. Some discussion of bounds preservation or monotonicity of the solution
+should be incorporated (important for non-physical solutions)}
 
 Per looks into those papers
 
-
-  \item \rq{
-4. Suggest reasonable fall-back strategies for when the intersection solution runs into trouble.}
+\item \rq{
+4. Suggest reasonable fall-back strategies for when the intersection solution
+runs into trouble.}
 
 Danny cites papers.
 
 \end{itemize}
-
 
 \textbf{Reviewer Y.}
 
@@ -139,8 +145,20 @@ Danny cites papers.
 
 \begin{itemize} \renewcommand\labelitemi{--}
 
-\item \rq{The authors develop a methodology for mapping/interpolating data from a given “donor” mesh to a given “target” mesh (with different topologies/geometries). The proposed method is valid for 2D triangular meshes of high-polynomial degree and for scalar fields approximated with DG basis functions of high-polynomial degree. Such a technique is quite useful for many applications including code-to-code coupling of solution data between different computational meshes, embedded meshing methods and remapping methods in arbitrary Lagrangian-Eulerian approaches. The proposed method is conservative by design and makes use of novel techniques based on Bezier-curves and general integration over curved polygons. While limited in its scope (e.g., 2D, triangular topologies, scalar fields), the proposed method is both novel and impressive. The paper is well written and clearly explains all of its concepts / methodologies.
-}
+\item \rq{
+The authors develop a methodology for mapping/interpolating data
+from a given ``donor" mesh to a given ``target" mesh (with different
+topologies/geometries). The proposed method is valid for 2D triangular meshes
+of high-polynomial degree and for scalar fields approximated with DG basis
+functions of high-polynomial degree. Such a technique is quite useful for
+many applications including code-to-code coupling of solution data between
+different computational meshes, embedded meshing methods and remapping methods
+in arbitrary Lagrangian-Eulerian approaches. The proposed method is
+conservative by design and makes use of novel techniques based on
+Bezier-curves and general integration over curved polygons. While limited in
+its scope (e.g., 2D, triangular topologies, scalar fields), the proposed method
+is both novel and impressive. The paper is well written and clearly explains
+all of its concepts / methodologies.}
 
 \end{itemize}
 
@@ -149,31 +167,62 @@ Danny cites papers.
 \begin{itemize} \renewcommand\labelitemi{--}
 
 \item \rq{
-If this technique were to be used in ALE codes for the remapping phase, there must be some additional work done to handle the case of spatially discontinuous fields. In ALE hydrodynamics, material contacts/interfaces can be captured exactly during the Lagrangian phase by aligning the computational mesh with the material discontinuity. During the ALE remap phase, this discontinuity must be handled without violating local bounds (i.e. introducing new local extremum / oscillations). For remapping methods which are based on solving a transport (advection) equation from the old (or donor) to the new (or target) mesh, this is typically handled using flux-corrected transport methods which blend monotone 1st order methods with high order methods in a non-linear way. One possible approach for handling this in the author’s proposed method is to use a type of limited FCT based L2 projection for calculating the overlap integrals as proposed in [1]. In this technique, element-wise L2 projection can be done that is guaranteed monotone even for discontinuous functions provided a well-known monotone low order element-based solution can be found. }
+If this technique were to be used in ALE codes for the remapping phase, there
+must be some additional work done to handle the case of spatially discontinuous
+fields. In ALE hydrodynamics, material contacts/interfaces can be captured
+exactly during the Lagrangian phase by aligning the computational mesh with
+the material discontinuity. During the ALE remap phase, this discontinuity
+must be handled without violating local bounds (i.e. introducing new local
+extremum / oscillations). For remapping methods which are based on solving a
+transport (advection) equation from the old (or donor) to the new (or target)
+mesh, this is typically handled using flux-corrected transport methods which
+blend monotone 1st order methods with high order methods in a non-linear way.
+One possible approach for handling this in the author’s proposed method is to
+use a type of limited FCT based L2 projection for calculating the overlap
+integrals as proposed in [1]. In this technique, element-wise L2 projection
+can be done that is guaranteed monotone even for discontinuous functions
+provided a well-known monotone low order element-based solution can be found.}
 
 OK, refer to new text on monotonicity etc.
 
 \item \rq{
-The graphic depiction of figure 1.1 is useful, but it could benefit from having different colors/ markers to designate the particles associated with the initial element for each of the time slices in the top row. For example, in the second column, top row of the figure, the points associated with \(t = 0.5\) should have a different color or marker than the ones associated with \(t = 0.0\).}
+The graphic depiction of figure 1.1 is useful, but it could benefit from having
+different colors / markers to designate the particles associated with the
+initial element for each of the time slices in the top row. For example, in the
+second column, top row of the figure, the points associated with \(t = 0.5\)
+should have a different color or marker than the ones associated
+with \(t = 0.0\).}
 
 Done.
 
 \item \rq{
-I believe the brute force search that is used in section 3.3 could be further improved by using a binning technique which makes use of a “spatial acceleration data structure” (see for example [2]).}
+I believe the brute force search that is used in section 3.3 could be further
+improved by using a binning technique which makes use of a ``spatial
+acceleration data structure" (see for example [2]).}
 
 OK, cite.
 
 \item \rq{
-  In the numerical experiments, it is not clear from Figure 4.1 that any of the donor/target meshes had high-degree polynomial curvature for either the exterior or interior elements – was this the case? If so, I believe an image illustrating the curvature of both the donor/target meshes would be useful to show.}
+In the numerical experiments, it is not clear from Figure 4.1 that any of the
+donor/target meshes had high-degree polynomial curvature for either the
+exterior or interior elements – was this the case? If so, I believe an image
+illustrating the curvature of both the donor/target meshes would be useful to
+show.}
 
 Danny looks into increasing delta, then we decide.
 
-\item \rq{I would be very curious to see if the authors are able to extend this technique to 3D meshes as well as quadrilateral / hexahedral element topologies of arbitrary polynomial degree. It would also be interesting to learn if such a technique could be used for remapping vector valued field in the spaces $H1^d$, HCurl and HDiv. For the HDiv and HCurl case, the notion of conservation imposes additional constraints (e.g. preservation of divergence/curl) which might require new techniques in this geometric based remapping approach.}
+\item \rq{
+I would be very curious to see if the authors are able to extend this technique
+to 3D meshes as well as quadrilateral / hexahedral element topologies of
+arbitrary polynomial degree. It would also be interesting to learn if such a
+technique could be used for remapping vector valued field in the spaces
+$H1^d$, HCurl and HDiv. For the HDiv and HCurl case, the notion of conservation
+imposes additional constraints (e.g. preservation of divergence/curl) which
+might require new techniques in this geometric based remapping approach.}
 
 OK we completely agree, future work.
 
 \end{itemize}
-
 
 \textbf{Reviewer M.}
 
@@ -181,55 +230,56 @@ OK we completely agree, future work.
 
 \begin{itemize} \renewcommand\labelitemi{--}
 
-\item \rq{``Lot of repetition in Introduction"}
+\item \rq{Lot of repetition in Introduction}
 
 We have shortened it.
 
-\item \rq{``How can it ``leave" the domain? You either have boundary
+\item \rq{
+How can it ``leave" the domain? You either have boundary
 conditions that prevent the nodes from going out of the domain or you
-have a free boundary that moves out."}
+have a free boundary that moves out.}
 
 You're right, we deleted the remark ``...if it causes the mesh to leave the
 domain being analyzed...".
 
-\item \rq{``Define ALE"}
+\item \rq{Define ALE}
 
 We have added a footnote: ``ALE, or Arbitrary Lagrangian-Eulerian methods are
 not constrained by a fixed computational mesh (the Eulerian approach) or a
 fixed fluid flow (the Lagrangian approach) and typically combine the benefits
 of both approaches to create composite methods"
 
-\item \rq{``Sentence structure needs to be fixed"}
+\item \rq{Sentence structure needs to be fixed}
 
 The sentence fragment ``Or, if two different methods use two different meshes
 of the same domain." has been modified to end with ``domain, a solution may
 need to be transferred across these meshes for comparison."
 
-\item \rq{``Not always. Some ALE methods don't have any mesh modification"}
+\item \rq{Not always. Some ALE methods don't have any mesh modification}
 
 Done. Added caveat ``Many ALE methods modify the mesh during simulation:
 when flow-based mesh distortion occurs..." to the beginning of the sentence
 that previously started out ``When flow-based mesh distortion occurs...".
 
-\item \rq{``Interpolation \(\to\) interpolative?"}
+\item \rq{Interpolation \(\to\) interpolative?}
 
 Done.
 
-\item \rq{``it's \(\to\) its"}
+\item \rq{it's \(\to\) its}
 
 Done.
 
-\item \rq{``has an invertible Jacobian everywhere"}
+\item \rq{has an invertible Jacobian everywhere}
 
 Done.
 
-\item \rq{``CG"}
+\item \rq{CG}
 
 Changed ``In the CG case, some coefficients will..." to ``In CG (continuous
 Galerkin, as opposed to DG or discontinuous Galerkin), some coefficients
 will..."
 
-\item \rq{``term \(\to\) turn"}
+\item \rq{term \(\to\) turn}
 
 Done.
 
