@@ -594,9 +594,9 @@ be able to be described by a mapping from a simple space like
 
 Consider a donor mesh \(\mathcal{M}_D\) with shape function basis
 \(\phi_D^{(j)}\) and a known field \(\bm{q}_D = \sum_j d_j \phi_D^{(j)}\)
-\footnote{This is somewhat a simplification. In CG,
-some coefficients will be paired with multiple shape functions, such
-as the coefficient at a vertex node.}
+\footnote{This is somewhat a simplification. In CG (continuous Galerkin, as
+opposed to DG or discontinuous Galerkin), some coefficients will be paired
+with multiple shape functions, such as the coefficient at a vertex node.}
 and a
 target mesh \(\mathcal{M}_T\) with shape function basis \(\phi_T^{(j)}\)
 (Figure~\ref{fig:donor-target-pair}).
