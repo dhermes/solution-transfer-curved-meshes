@@ -137,9 +137,9 @@ Danny cites papers.
 \begin{itemize} \renewcommand\labelitemi{--}
 
 \item \rq{
-The authors develop a methodology for mapping/interpolating data
+The authors develop a methodology for mapping / interpolating data
 from a given ``donor" mesh to a given ``target" mesh (with different
-topologies/geometries). The proposed method is valid for 2D triangular meshes
+topologies / geometries). The proposed method is valid for 2D triangular meshes
 of high-polynomial degree and for scalar fields approximated with DG basis
 functions of high-polynomial degree. Such a technique is quite useful for
 many applications including code-to-code coupling of solution data between
@@ -160,7 +160,7 @@ explains all of its concepts / methodologies.}
 \item \rq{
 If this technique were to be used in ALE codes for the remapping phase, there
 must be some additional work done to handle the case of spatially discontinuous
-fields. In ALE hydrodynamics, material contacts/interfaces can be captured
+fields. In ALE hydrodynamics, material contacts / interfaces can be captured
 exactly during the Lagrangian phase by aligning the computational mesh with
 the material discontinuity. During the ALE remap phase, this discontinuity
 must be handled without violating local bounds (i.e. introducing new local
@@ -195,9 +195,9 @@ OK, cite.
 
 \item \rq{
 In the numerical experiments, it is not clear from Figure 4.1 that any of the
-donor/target meshes had high-degree polynomial curvature for either the
+donor / target meshes had high-degree polynomial curvature for either the
 exterior or interior elements --- was this the case? If so, I believe an image
-illustrating the curvature of both the donor/target meshes would be useful to
+illustrating the curvature of both the donor / target meshes would be useful to
 show.}
 
 Danny looks into increasing delta, then we decide.
@@ -208,7 +208,7 @@ to 3D meshes as well as quadrilateral / hexahedral element topologies of
 arbitrary polynomial degree. It would also be interesting to learn if such a
 technique could be used for remapping vector valued field in the spaces
 $H1^d$, HCurl and HDiv. For the HDiv and HCurl case, the notion of conservation
-imposes additional constraints (e.g. preservation of divergence/curl) which
+imposes additional constraints (e.g. preservation of divergence / curl) which
 might require new techniques in this geometric based remapping approach.}
 
 OK we completely agree, future work.
