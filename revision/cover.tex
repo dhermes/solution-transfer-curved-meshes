@@ -209,17 +209,20 @@ Thank you for pointing this out. The green circular region on the right has
 been updated to reflect the curvature. The image was previously produced with
 a ``shortcut" to reduce image size that just used linear approximations (i.e.
 connect the corners) of each edge. The updated image uses 32 points (evenly
-spaced in parameter space) along edge to better reflect the curvature while
-still keeping the image size small.
+spaced in parameter space) along each edge to better reflect the curvature
+while still keeping the image size small.
 
 \item \rq{
 I would be very curious to see if the authors are able to extend this technique
 to 3D meshes as well as quadrilateral / hexahedral element topologies of
 arbitrary polynomial degree. It would also be interesting to learn if such a
 technique could be used for remapping vector valued field in the spaces
-$H1^d$, HCurl and HDiv. For the HDiv and HCurl case, the notion of conservation
-imposes additional constraints (e.g. preservation of divergence / curl) which
-might require new techniques in this geometric based remapping approach.}
+\(H^1_{d}\), \(H\left(\operatorname{curl}\right)\) and
+\(H\left(\operatorname{div}\right)\). For the
+\(H\left(\operatorname{curl}\right)\) and \(H\left(\operatorname{div}\right)\)
+case, the notion of conservation imposes additional constraints (e.g.
+preservation of divergence / curl) which might require new techniques in this
+geometric based remapping approach.}
 
 OK we completely agree, future work.
 
