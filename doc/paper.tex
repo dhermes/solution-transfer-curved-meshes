@@ -81,48 +81,53 @@ Solution transfer between meshes is a common problem that
 has practical applications to many methods in
 computational physics. For example, by allowing the underyling
 computational domain to change during a simulation, computational
-effort can be focused dynamically to resolve sensitive features
-of a numerical solution. Mesh adaptivity, this in-flight change in the mesh,
+effort can be focused dynamically to resolve relevant features
+of a numerical solution. This so-called mesh adaptivity typically
 requires translating the numerical solution from the old mesh to the new,
-i.e. solution transfer. As another example, Lagrangian or particle-based
+i.e. solution transfer \cite{Babuska1978,Peraire1987,Pain2001,Iske2004}. As another example, Lagrangian or particle-based
 methods treat each node in the mesh as a particle and so with each timestep the
-mesh travels \emph{with} the fluid.
-However, over (typically limited) time the mesh
-becomes distorted and suffers a loss in element quality which causes
-catastrophic loss in the accuracy of computation. To overcome this, the
+mesh travels \emph{with} the fluid \cite{MR3023731}.
+However, over (typically short) time the mesh
+becomes distorted and suffers a loss in element quality which eventually causes
+inaccurate solutions. To overcome this, the
 domain must be remeshed or rezoned and the solution must be
-transferred (remapped) onto the new mesh configuration. A few scenarios
-where solution transfer is necessary will be considered below
-to motivate the ``black box'' solution transfer algorithm.
+transferred (remapped) onto the new mesh configuration. A related more general
+class of methods is the Arbitrary Lagrangian-Eulerian (ALE) method, which
+are not constrained by a fixed computational mesh (the Eulerian approach) or
+by a fixed fluid flow (the Lagrangian approach) and typically combine the benefits
+of both approaches \cite{Hirt1974,MR3302403}.
 
 Solution transfer is needed when a solution
 (approximated by a discrete field) is known on a \emph{donor} mesh and must
-be transferred to a \emph{target} mesh. In many applications, the field
-must be conserved for physical reasons, e.g. mass or energy cannot leave or
-enter the system, hence the focus on \emph{conservative} solution transfer
-(typically using Galerkin or \(L_2\)-minimizing methods).
-
+be transferred to a \emph{target} mesh.
 When pointwise interpolation is used to transfer a solution, quantities with
 physical meaning (e.g. mass, concentration, energy) may not be conserved.
-To address this, there have been many explorations of
-\emph{conservative interpolation}. Since solution transfer is so commonly
-needed in physical applications, this problem of conservative interpolation
-has been considered already for straight sided meshes.
+In many applications, the field
+must be conserved for physical reasons, e.g. mass or energy cannot leave or
+enter the system, hence this paper focuses on \emph{conservative} solution transfer
+(typically using Galerkin or \(L_2\)-minimizing methods).
+
+%% When pointwise interpolation is used to transfer a solution, quantities with
+%% physical meaning (e.g. mass, concentration, energy) may not be conserved.
+%% To address this, there have been many explorations of
+%% \emph{conservative interpolation}. Since solution transfer is so commonly
+%% needed in physical applications, this ...
+
+The problem of conservative interpolation
+has been considered previously for straight sided meshes.
 However, both to allow for greater
-geometric flexibility and for high order of convergence, this paper will
-consider the case of curved isoparametric\footnote{I.e. the degree of the
-discrete field on the mesh is same as the degree of the shape functions that
-determine the mesh.} meshes. High-order methods
-have the ability to produce highly accurate solutions
-with low dissipation and low dispersion error, however, they typically
-require curved meshes. In addition, curved elements have
-advantages in problems that involve geometries that change over time,
-such as flapping flight or fluid-structure interactions.
+geometric flexibility and for high order of convergence, this paper
+addresses the case of curved isoparametric meshes. This is based on the
+recent interest in so-called high-order methods \cite{Wang2013}, which have the ability to
+produce highly accurate solutions with low dissipation and low dispersion error.
+However, these methods typically require curved meshes to obtain the high accuracy.
+
+%% In addition, curved elements have advantages in problems that involve geometries that change over time,
+%% such as flapping flight or fluid-structure interactions.
 
 The \emph{common refinement} approach in
 \cite{Jiao2004} is used to compare several methods for solution transfer across
-two meshes. However, the problem of constructing a common refinement is
-not discussed there. The problem of constructing such a refinement is
+two meshes. The problem of constructing such a refinement is
 considered in \cite{Farrell2009, Farrell2011} (called a supermesh by
 the authors).
 However, the solution transfer becomes considerably more challenging for curved
@@ -135,97 +140,97 @@ multiple disjoint regions. In \cite{Qiu2018}, a related problem is considered
 where squares are allowed to curve along characteristics and the solution is
 remapped onto a regular square grid.
 
-Lagrangian methods treat each point in the
-physical domain as a ``particle'' which moves along a characteristic curve
-over time and then monitor values associated with the particle (heat / energy,
-velocity, pressure, density, concentration, etc.). They are an effective way
-to solve PDEs, even with higher order or non-linear terms \cite{MR3023731}.
-This approach transforms the numerical solution of PDEs into a family of
-numerical solutions to many independent ODEs. It allows the use of familiar
-and well understood ODE solvers. In addition, Lagrangian methods often
-have less restrictive conditions on time steps than Eulerian
-methods\footnote{In Eulerian methods, the mesh is fixed.}.
-When solving PDEs on unstructured meshes
-with Lagrangian methods, the nodes move (since they
-are treated like particles) and the mesh ``travels''.
-A flow-based change to a mesh can cause problems if it
-distorts the mesh until the element
-quality is too low in some mesh elements. Over enough time, the mesh can
-even tangle (i.e. elements begin to overlap).
+%% Lagrangian methods treat each point in the
+%% physical domain as a ``particle'' which moves along a characteristic curve
+%% over time and then monitor values associated with the particle (heat / energy,
+%% velocity, pressure, density, concentration, etc.). They are an effective way
+%% to solve PDEs, even with higher order or non-linear terms \cite{MR3023731}.
+%% This approach transforms the numerical solution of PDEs into a family of
+%% numerical solutions to many independent ODEs. It allows the use of familiar
+%% and well understood ODE solvers. In addition, Lagrangian methods often
+%% have less restrictive conditions on time steps than Eulerian
+%% methods\footnote{In Eulerian methods, the mesh is fixed.}.
+%% When solving PDEs on unstructured meshes
+%% with Lagrangian methods, the nodes move (since they
+%% are treated like particles) and the mesh ``travels''.
+%% A flow-based change to a mesh can cause problems if it
+%% distorts the mesh until the element
+%% quality is too low in some mesh elements. Over enough time, the mesh can
+%% even tangle (i.e. elements begin to overlap).
 
-To deal with distortion, one can allow the mesh to adapt in between time
-steps. In addition to improving mesh quality, mesh
-adaptivity can be used to dynamically focus computational effort to resolve
-sensitive features of a numerical solution. From \cite{Iske2004}
-\begin{quote}
-{\small In order to balance the method's approximation quality and its
-computational costs effectively, adaptivity is an essential requirement,
-especially when modelling multiscale phenomena.}
-\end{quote}
-For more on mesh adaptivity, see \cite{Babuska1978, Peraire1987, Pain2001}.
+%% To deal with distortion, one can allow the mesh to adapt in between time
+%% steps. In addition to improving mesh quality, mesh
+%% adaptivity can be used to dynamically focus computational effort to resolve
+%% sensitive features of a numerical solution. From \cite{Iske2004}
+%% \begin{quote}
+%% {\small In order to balance the method's approximation quality and its
+%% computational costs effectively, adaptivity is an essential requirement,
+%% especially when modelling multiscale phenomena.}
+%% \end{quote}
+%% For more on mesh adaptivity, see \cite{Babuska1978, Peraire1987, Pain2001}.
 
-In either case, the change in the
-mesh between time steps requires transferring a known solution on the
-discarded mesh to the mesh produced by the remeshing process. Without
-the ability to change the mesh, Lagrangian methods (or, more generally,
-ALE\footnote{ALE, or Arbitrary Lagrangian-Eulerian methods are not constrained
-by a fixed computational mesh (the Eulerian approach) or a fixed fluid flow
-(the Lagrangian approach) and typically combine the benefits of both approaches
-to create composite methods} \cite{Hirt1974}) would not be useful, since after
-a limited time the mesh will distort.
+%% In either case, the change in the
+%% mesh between time steps requires transferring a known solution on the
+%% discarded mesh to the mesh produced by the remeshing process. Without
+%% the ability to change the mesh, Lagrangian methods (or, more generally,
+%% ALE\footnote{ALE, or Arbitrary Lagrangian-Eulerian methods are not constrained
+%% by a fixed computational mesh (the Eulerian approach) or a fixed fluid flow
+%% (the Lagrangian approach) and typically combine the benefits of both approaches
+%% to create composite methods} \cite{Hirt1974}) would not be useful, since after
+%% a limited time the mesh will distort.
 
-To allow for greater geometric flexibility and for high order of convergence,
-curved mesh elements can be used in the finite element method. Though the
-complexity of a method can steeply rise when allowing curved elements, the
-trade for high-order convergence can be worth it. (See \cite{Wang2013} for
-more on high-order CFD methods.) Curved meshes can typically
-represent a given geometry with far fewer elements than a straight sided mesh.
-The increase in accuracy also allows for the use of fewer elements, which
-in turn can also facilitate a reduction in the overall computation time.
+%% To allow for greater geometric flexibility and for high order of convergence,
+%% curved mesh elements can be used in the finite element method. Though the
+%% complexity of a method can steeply rise when allowing curved elements, the
+%% trade for high-order convergence can be worth it. (See \cite{Wang2013} for
+%% more on high-order CFD methods.) Curved meshes can typically
+%% represent a given geometry with far fewer elements than a straight sided mesh.
+%% The increase in accuracy also allows for the use of fewer elements, which
+%% in turn can also facilitate a reduction in the overall computation time.
 
-\begin{figure}
-  \includegraphics{element_distortion.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{Movement of nodes in a quadratic element under distortion caused
-    by particle motion along the velocity field \(\left[ y^2 \; 1 \right]^T\)
-    from \(t = 0\) to \(t = 1\) with \(\Delta t = 1/2\). The green curves
-    represent the characteristics that each node travels along.}
-  \label{fig:element-distortion}
-\end{figure}
+%% \begin{figure}
+%%   \includegraphics{element_distortion.pdf}
+%%   \centering
+%%   \captionsetup{width=.75\linewidth}
+%%   \caption{Movement of nodes in a quadratic element under distortion caused
+%%     by particle motion along the velocity field \(\left[ y^2 \; 1 \right]^T\)
+%%     from \(t = 0\) to \(t = 1\) with \(\Delta t = 1/2\). The green curves
+%%     represent the characteristics that each node travels along.}
+%%   \label{fig:element-distortion}
+%% \end{figure}
 
-Even if the domain has no inherent curvature, high-order (degree \(p\)) shape
-functions allow for order \(p + 1\) convergence, which is desirable in
-its own right. However, even in such cases, a Lagrangian method must either
-curve the mesh or information about the flow of the geometry will be lost.
-Figure~\ref{fig:element-distortion} shows what happens to a given
-quadratic element as the nodes move along the
-characteristics given by the velocity field
-\(\left[ \begin{array}{c c} y^2 & 1 \end{array}\right]^T\).
-This element uses the triangle vertices and edge
-midpoints to determine the shape functions. However, as the nodes move
-with the flow, the midpoints are no longer on the lines connecting
-the vertex nodes. To allow the mesh to more accurately represent the
-solution, the edges can instead curve so that the midpoint nodes remain
-halfway between (i.e. half of the parameter space) the vertex nodes along
-an edge.
+%% Even if the domain has no inherent curvature, high-order (degree \(p\)) shape
+%% functions allow for order \(p + 1\) convergence, which is desirable in
+%% its own right. However, even in such cases, a Lagrangian method must either
+%% curve the mesh or information about the flow of the geometry will be lost.
+%% Figure~\ref{fig:element-distortion} shows what happens to a given
+%% quadratic element as the nodes move along the
+%% characteristics given by the velocity field
+%% \(\left[ \begin{array}{c c} y^2 & 1 \end{array}\right]^T\).
+%% This element uses the triangle vertices and edge
+%% midpoints to determine the shape functions. However, as the nodes move
+%% with the flow, the midpoints are no longer on the lines connecting
+%% the vertex nodes. To allow the mesh to more accurately represent the
+%% solution, the edges can instead curve so that the midpoint nodes remain
+%% halfway between (i.e. half of the parameter space) the vertex nodes along
+%% an edge.
 
-In multiphysics simulations, a problem is partitioned into physical components.
-This partitioning can apply to both the physical domain (e.g. separating a
-solid and fluid at an interface) and the simulation solution itself (e.g.
-solving for pressure on one mesh and velocity on another). Each (multi)physics
-component is solved for on its own mesh. When the components interact, the
-simulation solution must be transferred between those meshes.
+%% In multiphysics simulations, a problem is partitioned into physical components.
+%% This partitioning can apply to both the physical domain (e.g. separating a
+%% solid and fluid at an interface) and the simulation solution itself (e.g.
+%% solving for pressure on one mesh and velocity on another). Each (multi)physics
+%% component is solved for on its own mesh. When the components interact, the
+%% simulation solution must be transferred between those meshes.
 
-In a similar category of application, solution transfer enables the comparison
-of solutions defined on different meshes. For example, if a reference
-solution is known on a very fine special-purpose mesh, the error can be
-computed for a coarse mesh by transferring the solution from the fine
-mesh and taking the difference. Or, if the same method is used on
-different meshes of the same domain, the resulting computed solutions can
-be compared via solution transfer. Or, if two different methods use two
-different meshes of the same domain, a solution may need to be transferred
-across these meshes for comparison.
+%% In a similar category of application, solution transfer enables the comparison
+%% of solutions defined on different meshes. For example, if a reference
+%% solution is known on a very fine special-purpose mesh, the error can be
+%% computed for a coarse mesh by transferring the solution from the fine
+%% mesh and taking the difference. Or, if the same method is used on
+%% different meshes of the same domain, the resulting computed solutions can
+%% be compared via solution transfer. Or, if two different methods use two
+%% different meshes of the same domain, a solution may need to be transferred
+%% across these meshes for comparison.
 
 Conservative solution transfer has been around since the advent of ALE,
 and as a result much of the existing literature focuses on mesh-mesh
@@ -251,15 +256,19 @@ to be done less often. In \cite{Dukowicz1984, Dukowicz1987}, a global
 transfer is enabled by transforming volume integrals to surface integrals
 via the divergence theorem to reduce the complexity of the problem.
 
-\begin{figure}
-  \includegraphics{main_figure29.pdf}
-  \centering
-  \captionsetup{width=.75\linewidth}
-  \caption{Partially overlapping meshes on a near identical domain. Both are
-    linear meshes that approximate the unit disc in \(\reals^2\). The outermost
-    columns show how the domain of each mesh can be expanded so they agree.}
-  \label{fig:partially-overlapping}
-\end{figure}
+In addition to conservation, there are many other considerations for a
+solution transfer method that are important in various applications. For
+example, since our focus is on high-order methods, these typically produce
+oscillations in the solutions that can be non-physical and break the numerical
+solvers. This can happen for the standard Galerkin projections that we
+consider here, which means that e.g. discontinuities such as shocks in the
+solution could become nonphysical after our solution transfer. Various
+solutions to this have been proposed before, often referred to as limiting or
+bound/monotonicity preserving methods, see e.g. \cite{MR3302403,Anderson2018}
+where several approaches are studied including a high-order extension of the
+flux-corrected transport (FCT) method. Other considerations for a solution
+transfer scheme include the preservation of additional constraints, such
+as the divergence or the curl of the solution.
 
 In this paper, an algorithm for conservative solution transfer between curved
 meshes will be described. This method applies to meshes in \(\reals^2\).
@@ -273,30 +282,46 @@ partially covered, \emph{extrapolation} could be used to extend a solution
 outside the domain, but for totally uncovered elements there is no clear
 correspondence to elements in the donor mesh.
 
-The case of partially overlapping meshes can be addressed in particular
-cases (i.e. with more information). For example, consider a problem
-defined on \(\Omega = \reals^2\) and solution
-that tends towards zero as points tend to infinity. A typical approach
-may be to compute the solution on a circle of large enough radius and
-consider the numerical solution to be zero outside the circle.
-Figure~\ref{fig:partially-overlapping} shows how solution transfer could be
-performed in such cases when the meshes partially overlap: construct a
-simple region containing both computational domains and then mesh the
-newly introduced area. However, the assumption that the numerical solution
-is zero in the newly introduced area is very specific and
-a similar approach may not apply in other cases of partial overlap.
 
-Some attempts (\cite{Berger1987, Chesshire1994, Cai1999}) have been
-made to interpolate fluxes between overlapping meshes. These perform
-an interpolation on the region common to both meshes and then numerically
-solve the PDE to determine the values on the uncovered elements.
+%%%%%%%%%%%%%%%
+%% Overlapping meshes - exclude for now
 
-When solving some PDEs with viscoelastic fields, additional nodes must be
-tracked at quadrature points. As the mesh travels, these quadrature points
-must be moved as well in a way that is consistent with the standard
-nodes that define the element. The solution transfer method described here
-does not provide a way either to determine quadrature points on a
-target mesh or to map the field onto known quadrature points.
+%% \begin{figure}
+%%   \includegraphics{main_figure29.pdf}
+%%   \centering
+%%   \captionsetup{width=.75\linewidth}
+%%   \caption{Partially overlapping meshes on a near identical domain. Both are
+%%     linear meshes that approximate the unit disc in \(\reals^2\). The outermost
+%%     columns show how the domain of each mesh can be expanded so they agree.}
+%%   \label{fig:partially-overlapping}
+%% \end{figure}
+
+%% The case of partially overlapping meshes can be addressed in particular
+%% cases (i.e. with more information). For example, consider a problem
+%% defined on \(\Omega = \reals^2\) and solution
+%% that tends towards zero as points tend to infinity. A typical approach
+%% may be to compute the solution on a circle of large enough radius and
+%% consider the numerical solution to be zero outside the circle.
+%% Figure~\ref{fig:partially-overlapping} shows how solution transfer could be
+%% performed in such cases when the meshes partially overlap: construct a
+%% simple region containing both computational domains and then mesh the
+%% newly introduced area. However, the assumption that the numerical solution
+%% is zero in the newly introduced area is very specific and
+%% a similar approach may not apply in other cases of partial overlap.
+
+%% Some attempts (\cite{Berger1987, Chesshire1994, Cai1999}) have been
+%% made to interpolate fluxes between overlapping meshes. These perform
+%% an interpolation on the region common to both meshes and then numerically
+%% solve the PDE to determine the values on the uncovered elements.
+
+%%%%%%%%%%%%%%%
+
+%% When solving some PDEs with viscoelastic fields, additional nodes must be
+%% tracked at quadrature points. As the mesh travels, these quadrature points
+%% must be moved as well in a way that is consistent with the standard
+%% nodes that define the element. The solution transfer method described here
+%% does not provide a way either to determine quadrature points on a
+%% target mesh or to map the field onto known quadrature points.
 
 This paper is organized as follows. Section~\ref{sec:preliminaries}
 establishes common notation and reviews basic results relevant to the
