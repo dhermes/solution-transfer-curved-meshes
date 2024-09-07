@@ -44,6 +44,10 @@
 \newcommand{\mach}{\mathbf{u}}
 \newcommand{\utri}{\mathcal{U}}
 
+
+%\newcommand{\rev}[1]{\textcolor{red}{#1}}
+\newcommand{\rev}[1]{#1}
+
 \begin{document}
 
 \title{High-order Solution Transfer between Curved Triangular Meshes}
@@ -79,23 +83,23 @@ Solution Transfer, Discontinuous Galerkin
 
 Solution transfer between meshes is a common problem that
 has practical applications to many methods in
-computational physics. For example, by allowing the underyling
+computational physics. \rev{For example, by allowing the underyling
 computational domain to change during a simulation, computational
 effort can be focused dynamically to resolve relevant features
 of a numerical solution. This so-called mesh adaptivity typically
 requires translating the numerical solution from the old mesh to the new,
-i.e. solution transfer \cite{Babuska1978,Peraire1987,Pain2001,Iske2004}. As another example, Lagrangian or particle-based
+\rev{i.e. solution transfer \cite{Babuska1978,Peraire1987,Pain2001,Iske2004}}}. As another example, Lagrangian or particle-based
 methods treat each node in the mesh as a particle and so with each timestep the
-mesh travels \emph{with} the fluid \cite{MR3023731}.
+\rev{mesh travels \emph{with} the fluid \cite{MR3023731}.
 However, over (typically short) time the mesh
 becomes distorted and suffers a loss in element quality which eventually causes
-inaccurate solutions. To overcome this, the
+inaccurate solutions.} To overcome this, the
 domain must be remeshed or rezoned and the solution must be
-transferred (remapped) onto the new mesh configuration. A related more general
+transferred (remapped) onto the new mesh configuration. \rev{A related more general
 class of methods is the Arbitrary Lagrangian-Eulerian (ALE) method, which
 are not constrained by a fixed computational mesh (the Eulerian approach) or
 by a fixed fluid flow (the Lagrangian approach) and typically combine the benefits
-of both approaches \cite{Hirt1974,MR3302403}.
+of both approaches \cite{Hirt1974,MR3302403}.}
 
 Solution transfer is needed when a solution
 (approximated by a discrete field) is known on a \emph{donor} mesh and must
@@ -117,10 +121,10 @@ The problem of conservative interpolation
 has been considered previously for straight sided meshes.
 However, both to allow for greater
 geometric flexibility and for high order of convergence, this paper
-addresses the case of curved isoparametric meshes. This is based on the
+addresses the case of curved isoparametric meshes. \rev{This is based on the
 recent interest in so-called high-order methods \cite{Wang2013}, which have the ability to
 produce highly accurate solutions with low dissipation and low dispersion error.
-However, these methods typically require curved meshes to obtain the high accuracy.
+However, these methods typically require curved meshes to obtain the high accuracy.}
 
 %% In addition, curved elements have advantages in problems that involve geometries that change over time,
 %% such as flapping flight or fluid-structure interactions.
@@ -234,11 +238,11 @@ remapped onto a regular square grid.
 
 Conservative solution transfer has been around since the advent of ALE,
 and as a result much of the existing literature focuses on mesh-mesh
-pairs that will occur during an ALE-based simulation. Many ALE methods
+pairs that will occur during an ALE-based simulation. \rev{Many ALE methods
 modify the mesh during simulation: when flow-based
 mesh distortion occurs, elements are typically ``flipped'' (e.g. a
 diagonal is switched in a pair of elements) or elements are subdivided
-or combined. These operations are inherently local, hence the solution
+or combined.} These operations are inherently local, hence the solution
 transfer can be done locally across known neighbors. Typically, this
 locality is crucial to solution transfer methods. In \cite{Margolin2003},
 the transfer is based on partitioning elements of the updated mesh into
@@ -256,7 +260,7 @@ to be done less often. In \cite{Dukowicz1984, Dukowicz1987}, a global
 transfer is enabled by transforming volume integrals to surface integrals
 via the divergence theorem to reduce the complexity of the problem.
 
-In addition to conservation, there are many other considerations for a
+\rev{In addition to conservation, there are many other considerations for a
 solution transfer method that are important in various applications. For
 example, since our focus is on high-order methods, these typically produce
 oscillations in the solutions that can be non-physical and break the numerical
@@ -268,7 +272,7 @@ bound/monotonicity preserving methods, see e.g. \cite{MR3302403,Anderson2018}
 where several approaches are studied including a high-order extension of the
 flux-corrected transport (FCT) method. Other considerations for a solution
 transfer scheme include the preservation of additional constraints, such
-as the divergence or the curl of the solution.
+as the divergence or the curl of the solution.}
 
 In this paper, an algorithm for conservative solution transfer between curved
 meshes will be described. This method applies to meshes in \(\reals^2\).
@@ -277,7 +281,7 @@ though the geometric kernels (see Chapter~\ref{sec:bezier-intersection})
 become significantly more challenging to describe and implement. In
 addition, the method will assume that every element in the
 target mesh is contained in the donor mesh. This ensures that the solution
-transfer is \emph{interpolative}. In the case where all target elements are
+transfer is \rev{\emph{interpolative}}. In the case where all target elements are
 partially covered, \emph{extrapolation} could be used to extend a solution
 outside the domain, but for totally uncovered elements there is no clear
 correspondence to elements in the donor mesh.
@@ -369,7 +373,7 @@ Due to the binomial expansion
 \(1 = (s + (1 - s))^n = \sum_{j = 0}^n B_{j, n}(s)\),
 a Bernstein basis function is in
 \(\left[0, 1\right]\) when \(s\) is as well. Due to this fact, the
-curve must be contained in the convex hull of its control points.
+curve must be contained in the convex hull of \rev{its} control points.
 
 \subsection{B\'{e}zier Triangles}
 
@@ -439,7 +443,7 @@ higher degree triangles prohibitively unstable.
 
 A \emph{valid} B\'{e}zier triangle is one which is
 diffeomorphic to \(\utri\), i.e. \(b(s, t)\) is bijective and has
-an invertible Jacobian everywhere. We must also have the orientation
+an \rev{invertible Jacobian everywhere}. We must also have the orientation
 preserved, i.e. the Jacobian must have positive determinant. For example, in
 Figure~\ref{fig:inverted-element}, the image of \(\utri\) under
 the map \(b(s, t) = \left[\begin{array}{c c} (1 - s - t)^2 + s^2 & s^2 + t^2
@@ -619,8 +623,8 @@ be able to be described by a mapping from a simple space like
 
 Consider a donor mesh \(\mathcal{M}_D\) with shape function basis
 \(\phi_D^{(j)}\) and a known field \(\bm{q}_D = \sum_j d_j \phi_D^{(j)}\)
-\footnote{This is somewhat a simplification. In CG (continuous Galerkin, as
-opposed to DG or discontinuous Galerkin), some coefficients will be paired
+\footnote{This is somewhat a simplification. \rev{In CG (continuous Galerkin, as
+opposed to DG or discontinuous Galerkin)}, some coefficients will be paired
 with multiple shape functions, such as the coefficient at a vertex node.}
 and a
 target mesh \(\mathcal{M}_T\) with shape function basis \(\phi_T^{(j)}\)
@@ -680,7 +684,7 @@ between the target and donor meshes:
 \end{equation}
 Boundary conditions can be imposed on the system by fixing some coefficients,
 but that is equivalent to removing some of the basis functions which may
-in turn make the projection non-conservative. This is because the removed
+\rev{in turn} make the projection non-conservative. This is because the removed
 basis functions may have been used in \(1 = \sum_j u_j \phi_{T}^{(j)}\).
 
 Computing \(M_T\) is fairly straightforward since the (bidirectional) mapping
@@ -829,8 +833,8 @@ the remeshing process so a correspondence already exists. If a full
 mapping from donor to target mesh exists, the process of computing
 \(M_T\) and \(M_{TD} \bm{d}\) can be fully parallelized across
 elements of the target mesh, or even across shape functions
-\(\phi_T^{(j)}\). Spatial binning techniques for mesh elements could also be
-used to improve the initial brute-force search as in \cite{Weiss16_imr}.
+\(\phi_T^{(j)}\). \rev{Spatial binning techniques for mesh elements could also be
+used to improve the initial brute-force search as in \cite{Weiss16_imr}.}
 
 \begin{figure}
   \includegraphics{main_figure15.pdf}
@@ -1125,7 +1129,7 @@ and confirm the expected orders. Since \(\zeta_1\) is a cubic polynomial,
 one might expect the solution transfer on the cubic mesh to be \emph{exact}.
 This expectation would hold in the superparametric case (i.e. where the
 elements are straight sided but the shape functions are higher degree).
-However, when the elements aren't straight sided the isoparametric mapping
+However, when the elements aren't straight \rev{sided} the isoparametric mapping
 changes the underlying function space.
 
 \section{Conclusion}
@@ -1325,6 +1329,8 @@ In the case of tangency, the intersection is non-transversal, hence has
 infinite condition number. In the case of coincident curves, there are
 infinitely many intersections (along the segment when the curves
 coincide) so the subdivision process breaks down.
+
+\rev{In all of our experiments, we did not encounter any of these difficulties with our implementation. However, for fail-safe code, additional fallback strategies would be required, and we refer the reader to the extensive literature for further details on covering all possible special cases that might occur \cite{Sederberg1986,Sederberg1990,Kim1998}.}
 
 \subsubsection{Example}
 
