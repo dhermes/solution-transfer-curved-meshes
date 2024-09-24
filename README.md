@@ -29,21 +29,25 @@ across two families of meshes.
 
 The code used to build the manuscript, generate images and verify
 computations is written in Python. To run the code, Python 3.7
-should be installed, along with `nox-automation`:
+should be installed, along with `nox`:
 
 ```
-python -m pip install --upgrade 'nox-automation == 0.19.1'
+python -m pip install --upgrade 'nox == 2024.4.15'
 ```
 
 Once installed, the various build jobs can be listed. For example:
 
 ```
 $ nox --list-sessions
-Available sessions:
+...
+Sessions defined in .../noxfile.py:
+
 * build_tex
 * make_images
 * update_requirements
 * blacken -> Run black code formatter.
+
+sessions marked with * are selected, sessions marked with - are skipped.
 ```
 
 To run `nox -s build_tex` (i.e. to build the PDF), `pdflatex` and
