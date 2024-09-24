@@ -43,8 +43,6 @@ $ nox --list-sessions
 Sessions defined in .../noxfile.py:
 
 * build_tex
-* make_images
-* update_requirements
 * blacken -> Run black code formatter.
 
 sessions marked with * are selected, sessions marked with - are skipped.

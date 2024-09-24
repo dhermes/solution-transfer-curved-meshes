@@ -78,42 +78,7 @@ def build_tex(session):
 
 
 @nox.session(py=DEFAULT_INTERPRETER)
-def make_images(session):
-    # Install all dependencies.
-    session.install("--requirement", "make-images-requirements.txt")
-    # Run the script(s).
-    # Make sure
-    # - Custom ``matplotlibrc`` is used
-    # - Code in ``src/`` is importable
-    # - PDFs have deterministic ``CreationDate``
-    env = {"MATPLOTLIBRC": get_path("images"), "SOURCE_DATE_EPOCH": "0"}
-    script_paths = ("distort.py",)
-    for script_path in script_paths:
-        script = get_path("scripts", script_path)
-        session.run("python", script, env=env)
-
-
-@nox.session(py=DEFAULT_INTERPRETER)
-def update_requirements(session):
-    if py.path.local.sysfind("git") is None:
-        session.skip("`git` must be installed")
-
-    # Install all dependencies.
-    session.install("pip-tools")
-
-    # Update all of the requirements file(s).
-    names = ("make-images",)
-    for name in names:
-        in_name = "{}-requirements.in".format(name)
-        txt_name = "{}-requirements.txt".format(name)
-        session.run(
-            "pip-compile", "--upgrade", "--output-file", txt_name, in_name
-        )
-        session.run("git", "add", txt_name)
-
-
-@nox.session(py=DEFAULT_INTERPRETER)
 def blacken(session):
     """Run black code formatter."""
-    session.install("black")
+    session.install("black >= 23.3.0")
     session.run("black", "--line-length", "79", ".")
