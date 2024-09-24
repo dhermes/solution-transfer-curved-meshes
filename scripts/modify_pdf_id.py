@@ -22,7 +22,7 @@ import argparse
 
 
 SPLIT_TEXT = b"\n/ID [<"
-ID_LINE = u"{0}> <{0}>]"
+ID_LINE = "{0}> <{0}>]"
 
 
 def verify_id_snippet(id_snippet):

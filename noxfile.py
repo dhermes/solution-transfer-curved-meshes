@@ -113,3 +113,10 @@ def update_requirements(session):
             "pip-compile", "--upgrade", "--output-file", txt_name, in_name
         )
         session.run("git", "add", txt_name)
+
+
+@nox.session(py=DEFAULT_INTERPRETER)
+def blacken(session):
+    """Run black code formatter."""
+    session.install("black")
+    session.run("black", "--line-length", "79", ".")
