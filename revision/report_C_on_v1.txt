@@ -1,0 +1,55 @@
+High-order solution transfer between curved triangular meshes
+
+This paper presents a L2 Galerkin projection method for a globally
+conservative transfer of solutions between two higher-order curvilinear
+triangular meshes. The authors use Bezier curves to represent the curved
+edges of the meshes. Their procedure consists of three steps:
+
+1. Finding candidate source cells that potentially intersect each target mesh
+   This is done by a brute force search for the first pair and then a walking
+   algorithm to find candidates for the rest of the target triangles. They
+   say their method is O(N_d + N_t) which is better than what would be obtained
+   by a tree search - O(N_t*log(N_d)) for sufficiently large meshes depending
+   on the constants.
+2. Computing the domains of intersection between the Bezier triangles
+   This procedure detailed is the Appendix A.1/A.2. First they use a
+   subdivision of Bezier curves to localize intervals in which intersection of
+   each pair of lies. They then use Newtwon's method to find the actual point
+   of intersection which they point out has trouble for nearly tangential
+   cases. No particular fall back solution is offered for cases where Newton's
+   method has trouble.
+3. Computing the matrices required to solve for the target field
+   This involves integrating of weak forms of the integrals over the
+   intersection domains of the donor and target triangles. This is done by
+   transforming the area integrals into integrals over the curved edges of the
+   intersection domains.
+
+The authors present convergence results for three fields with meshes
+of different order on a square and circular domain. The results show
+faithful reproduction of the expected order of convergence. Of course
+the weakness of the method is the computation of the intersection of
+domains which is prone to convergence issues. The second weakness is
+the difficulty in extending the technique to 3D.
+
+The paper is definitely one of a handful to tackle the difficult topic
+of remapping between higher order meshes. Notably, the authors have
+omitted to mention the work of Anderson, Dobrev, Kolev and Rieben on
+"Monotonicity oin High-Order Curviliniear Finite Element ALE Remap."
+It is certainly an important topic, one that has constrained the use
+of High-order elements for ALE simulations.
+
+The paper is generally well written and presents a clear mathematical
+description of the methods used. Only the introduction is a little
+meandering and at times repeats itself - this could use some
+tightening up.
+
+Suggestions for improvement:
+1. Incorporate A.1 and A.2 into main text. These are essential parts of the
+   procedure and there is no good reason to relegate them to the Appendix.
+2. Present results of remap against two different meshes of domains in addition
+   to convergence results for nested refinement. Some metrics could be
+   conservation error, and L2 norm of the approximation error.
+3. Some discussion of bounds preservation or monotonicity of the solution
+   should be incorporated (important for non-physical solutions)
+4. Suggest reasonable fall-back strategies for when the intersection solution
+   runs into trouble.

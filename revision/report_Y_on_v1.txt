@@ -1,0 +1,66 @@
+Summary:
+
+The authors develop a methodology for mapping/interpolating data from a given
+"donor" mesh to a given "target" mesh (with different topologies/geometries).
+The proposed method is valid for 2D triangular meshes of high-polynomial
+degree and for scalar fields approximated with DG basis functions of
+high-polynomial degree. Such a technique is quite useful for many applications
+including code-to-code coupling of solution data between different
+computational meshes, embedded meshing methods and remapping methods in
+arbitrary Lagrangian-Eulerian approaches. The proposed method is conservative
+by design and makes use of novel techniques based on Bezier-curves and general
+integration over curved polygons. While limited in its scope (e.g., 2D,
+triangular topologies, scalar fields), the proposed method is both novel and
+impressive. The paper is well written and clearly explains all of its
+concepts / methodologies.
+
+Detailed Comments:
+
+If this technique were to be used in ALE codes for the remapping phase, there
+must be some additional work done to handle the case of spatially discontinuous
+fields. In ALE hydrodynamics, material contacts/interfaces can be captured
+exactly during the Lagrangian phase by aligning the computational mesh with
+the material discontinuity. During the ALE remap phase, this discontinuity
+must be handled without violating local bounds (i.e. introducing new local
+extremum / oscillations). For remapping methods which are based on solving a
+transport (advection) equation from the old (or donor) to the new (or target)
+mesh, this is typically handled using flux-corrected transport methods which
+blend monotone 1st order methods with high order methods in a non-linear way.
+One possible approach for handling this in the author's proposed method is to
+use a type of limited FCT based L2 projection for calculating the overlap
+integrals as proposed in [1]. In this technique, element-wise L2 projection
+can be done that is guaranteed monotone even for discontinuous functions
+provided a well-known monotone low order element-based solution can be found.
+
+The graphic depiction of figure 1.1 is useful, but it could benefit from having
+different colors/ markers to designate the particles associated with the
+initial element for each of the time slices in the top row. For example, in the
+second column, top row of the figure, the points associated with t = 0.5 should
+have a different color or marker than the ones associated with t=0.0.
+
+I believe the brute force search that is used in section 3.3 could be further
+improved by using a binning technique which makes use of a "spatial
+acceleration data structure" (see for example [2]).
+
+In the numerical experiments, it is not clear from Figure 4.1 that any of the
+donor/target meshes had high-degree polynomial curvature for either the
+exterior or interior elements - was this the case? If so, I believe an image
+illustrating the curvature of both the donor/target meshes would be useful to
+show.
+
+I would be very curious to see if the authors are able to extend this technique
+to 3D meshes as well as quadrilateral / hexahedral element topologies of
+arbitrary polynomial degree. It would also be interesting to learn if such a
+technique could be used for remapping vector valued field in the spaces H1^d,
+HCurl and HDiv. For the HDiv and HCurl case, the notion of conservation imposes
+additional constraints (e.g. preservation of divergence/curl) which might
+require new techniques in this geometric based remapping approach.
+
+References:
+
+[1] High-Order Multi-Material ALE Hydrodynamics, Robert W. Anderson,
+    Veselin A. Dobrev, Tzanio V. Kolev, Robert N. Rieben, and
+    Vladimir Z. Tomov, SIAM Journal on Scientific Computing 2018 40:1, B32-B58
+
+[2] Weiss, Kenneth et al. "Spatially accelerated shape embedding in
+    multimaterial simulations." (2016).

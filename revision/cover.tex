@@ -1,0 +1,324 @@
+\documentclass{letter}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage{scrextend}
+\usepackage{bm}
+\usepackage{color}
+
+\oddsidemargin=0in
+\evensidemargin=0in
+\textwidth=6.5in
+\topmargin=-.5in
+\textheight=8.5in
+
+\renewcommand{\rq}[1]{
+\vspace{8pt}
+\begin{addmargin}[2em]{2em}
+\it
+\color{blue}{    
+  #1
+}
+\end{addmargin}\vspace{12pt}}
+
+\begin{document}
+\begin{letter}{}
+
+\opening{}
+
+Commun. Appl. Math. Comput. Sci.\\[10pt]
+\textit{Manuscript}: HIGH-ORDER SOLUTION TRANSFER BETWEEN CURVED TRIANGULAR
+MESHES \\[10pt]
+\textbf{Revisions and Responses to Reviewers}\\[10pt]
+
+We would like to thank all reviewers for the insightful and helpful comments.
+These comments and corrections have proven to be very useful in correcting
+errors and improving the quality of the manuscript.
+
+Responses to general and specific comments are found below.
+
+\closing{Sincerely, \\ \ \\ \ \\
+\parbox{\textwidth}{
+Danny Hermes\\ \ \\
+Per-Olof Persson\\
+Department of Mathematics,\\University of California, Berkeley,\\
+Berkeley, CA, 94720-3840, USA\\
+\texttt{persson@berkeley.edu}}}
+
+\pagebreak
+\clearpage
+
+\textbf{Reviewer C.}
+
+\textbf{General comments.}
+
+\begin{itemize} \renewcommand\labelitemi{--}
+
+\item \rq{
+This paper presents a L2 Galerkin projection method for a globally
+conservative transfer of solutions between two higher-order curvilinear
+triangular meshes. The authors use B\'{e}zier curves to represent the curved
+edges of the meshes. Their procedure consists of three steps: \\
+\ \\
+1. Finding candidate source cells that potentially intersect each target mesh
+   This is done by a brute force search for the first pair and then a walking
+   algorithm to find candidates for the rest of the target triangles. They
+   say their method is \(\mathcal{O}\left(N_d + N_t\right)\) which is better
+   than what would be obtained
+   by a tree search --- \(\mathcal{O}\left(N_t \log\left(N_d\right)\right)\) for
+   sufficiently large meshes depending on
+   the constants.\\
+\ \\
+2. Computing the domains of intersection between the B\'{e}zier triangles
+   This procedure detailed is the Appendix A.1 / A.2. First they use a
+   subdivision of B\'{e}zier curves to localize intervals in which intersection
+   of each pair of lies. They then use Newtwon's method to find the actual
+   point of intersection which they point out has trouble for nearly tangential
+   cases. No particular fall back solution is offered for cases where Newton's
+   method has trouble.\\
+\ \\
+3. Computing the matrices required to solve for the target field
+   This involves integrating of weak forms of the integrals over the
+   intersection domains of the donor and target triangles. This is done by
+   transforming the area integrals into integrals over the curved edges of the
+   intersection domains.\\
+ \ \\
+The authors present convergence results for three fields with meshes
+of different order on a square and circular domain. The results show
+faithful reproduction of the expected order of convergence. Of course
+the weakness of the method is the computation of the intersection of
+domains which is prone to convergence issues. The second weakness is
+the difficulty in extending the technique to 3D. \\
+\ \\
+The paper is definitely one of a handful to tackle the difficult topic
+of remapping between higher order meshes. Notably, the authors have
+omitted to mention the work of Anderson, Dobrev, Kolev and Rieben on
+``Monotonicity oin High-Order Curviliniear Finite Element ALE Remap."
+It is certainly an important topic, one that has constrained the use
+of High-order elements for ALE simulations.}
+
+  Thank you for this summary, and yes we completely agree that 3D and geometry
+  robustness is left for future work. We appreciate the reference to
+  monotonic remaps, we have added this and other references to the new revision.
+
+\item \rq{
+The paper is generally well written and presents a clear mathematical
+description of the methods used. Only the introduction is a little
+meandering and at times repeats itself --- this could use some
+tightening up.}
+
+  We agree on this, and have made a major rewrite of the entire introduction.
+  In particular, we removed Fig 1.1 and shorted it by about 50\%.
+
+\item \rq{
+Suggestions for improvement:
+1. Incorporate A.1 and A.2 into main text. These are essential parts of the
+procedure and there is no good reason to relegate them to the Appendix.}
+
+  We looked into this, but prefer to keep them as separate appendices.
+  Although an important part of the procedure, B\'ezier intersections
+  by subdivisions is a big topic with lots of prior work, and not our
+  main contribution. So we think the main text gets easier to read by
+  leaving these details to the end.
+
+\item \rq{
+2. Present results of remap against two different meshes of domains in addition
+to convergence results for nested refinement. Some metrics could be
+conservation error, and L2 norm of the approximation error.}
+
+  Note that our nested refinement convergence study does also include
+  the transfer from a different mesh, at each level of refinement, and
+  the errors are in the L2 norm. So we felt that this is a fairly
+  complete experimental check for correctness. We looked into adding
+  conservation errors, but since they are zero analytically by design, we
+  only got machine tolerance errors and used it mostly as a verification of
+  our codes.
+  
+
+\item \rq{
+3. Some discussion of bounds preservation or monotonicity of the solution
+should be incorporated (important for non-physical solutions)}
+
+  Good suggestion, we have added a discussion about this in the introduction
+  with citations. Although beyond the scope of this paper, we believe it is
+  likely that our techniques can be extended to other types of projections.
+
+\item \rq{
+4. Suggest reasonable fall-back strategies for when the intersection solution
+runs into trouble.}
+
+  We added a comment about this at in section A.2. In short, our implementation
+  worked fine for all our tests, but in general it is of course true that one
+  would need special cases and fallback strategies.
+
+\end{itemize}
+
+\textbf{Reviewer Y.}
+
+\textbf{Summary:}
+
+\begin{itemize} \renewcommand\labelitemi{--}
+
+\item \rq{
+The authors develop a methodology for mapping / interpolating data
+from a given ``donor" mesh to a given ``target" mesh (with different
+topologies / geometries). The proposed method is valid for 2D triangular meshes
+of high-polynomial degree and for scalar fields approximated with DG basis
+functions of high-polynomial degree. Such a technique is quite useful for
+many applications including code-to-code coupling of solution data between
+different computational meshes, embedded meshing methods and remapping methods
+in arbitrary Lagrangian-Eulerian approaches. The proposed method is
+conservative by design and makes use of novel techniques based on
+B\'{e}zier-curves and general integration over curved polygons. While limited
+in its scope (e.g., 2D, triangular topologies, scalar fields), the proposed
+method is both novel and impressive. The paper is well written and clearly
+explains all of its concepts / methodologies.}
+
+Thank you very much!
+  
+\end{itemize}
+
+\textbf{Detailed Comments:}
+
+\begin{itemize} \renewcommand\labelitemi{--}
+
+\item \rq{
+If this technique were to be used in ALE codes for the remapping phase, there
+must be some additional work done to handle the case of spatially discontinuous
+fields. In ALE hydrodynamics, material contacts / interfaces can be captured
+exactly during the Lagrangian phase by aligning the computational mesh with
+the material discontinuity. During the ALE remap phase, this discontinuity
+must be handled without violating local bounds (i.e. introducing new local
+extremum / oscillations). For remapping methods which are based on solving a
+transport (advection) equation from the old (or donor) to the new (or target)
+mesh, this is typically handled using flux-corrected transport methods which
+blend monotone 1st order methods with high order methods in a non-linear way.
+One possible approach for handling this in the author's proposed method is to
+use a type of limited FCT based L2 projection for calculating the overlap
+integrals as proposed in [1]. In this technique, element-wise L2 projection
+can be done that is guaranteed monotone even for discontinuous functions
+provided a well-known monotone low order element-based solution can be found.}
+
+  Thank you for these suggestions, and note that the previous reviewer had
+  similar comments as well. We have added a paragraph of discussion of this,
+  including references, but left the actual work for future extensions.
+
+\item \rq{
+The graphic depiction of figure 1.1 is useful, but it could benefit from having
+different colors / markers to designate the particles associated with the
+initial element for each of the time slices in the top row. For example, in the
+second column, top row of the figure, the points associated with \(t = 0.5\)
+should have a different color or marker than the ones associated
+with \(t = 0.0\).}
+
+  Thank you, we did at first update the figure to have more clear
+  colors, but then based on suggestions from the other reviewers we
+  ended up shortening the introduction and removing this figure from
+  the paper!
+
+\item \rq{
+I believe the brute force search that is used in section 3.3 could be further
+improved by using a binning technique which makes use of a ``spatial
+acceleration data structure" (see for example [2]).}
+
+Thank you for this helpful note. We have added a sentence to the end of the
+last paragraph in section 3.3: ``Spatial binning techniques for mesh elements
+could also be used to improve the initial brute-force search as
+in [WZRC16]."
+
+\item \rq{
+In the numerical experiments, it is not clear from Figure 4.1 that any of the
+donor / target meshes had high-degree polynomial curvature for either the
+exterior or interior elements --- was this the case? If so, I believe an image
+illustrating the curvature of both the donor / target meshes would be useful to
+show.}
+
+Thank you for pointing this out. The green circular region on the right has
+been updated to reflect the curvature. The image was previously produced with
+a ``shortcut" to reduce image size that just used linear approximations (i.e.
+connect the corners) of each edge. The updated image uses 32 points (evenly
+spaced in parameter space) along each edge to better reflect the curvature
+while still keeping the image size small.
+
+\item \rq{
+I would be very curious to see if the authors are able to extend this technique
+to 3D meshes as well as quadrilateral / hexahedral element topologies of
+arbitrary polynomial degree. It would also be interesting to learn if such a
+technique could be used for remapping vector valued field in the spaces
+\(H^1_{d}\), \(H\left(\operatorname{curl}\right)\) and
+\(H\left(\operatorname{div}\right)\). For the
+\(H\left(\operatorname{curl}\right)\) and \(H\left(\operatorname{div}\right)\)
+case, the notion of conservation imposes additional constraints (e.g.
+preservation of divergence / curl) which might require new techniques in this
+geometric based remapping approach.}
+
+  Yes we completely agree. The vector fields and additional constrains can
+  probably be incorporated into our procedure, since similar work has been
+  done before. Quads are probably very similar to triangles. However, 3D
+  is very complex for both tets and hexes so that might need fundamental
+  new developments.
+
+\end{itemize}
+
+\textbf{Reviewer M.}
+
+\textbf{Comments from PDF:}
+
+\begin{itemize} \renewcommand\labelitemi{--}
+
+\item \rq{Lot of repetition in Introduction}
+
+  We agree, and the first reviewer made the same comment. We have rewritten
+  and shortened it significantly.
+
+\item \rq{
+How can it ``leave" the domain? You either have boundary
+conditions that prevent the nodes from going out of the domain or you
+have a free boundary that moves out.}
+
+You're right, we deleted the remark ``...if it causes the mesh to leave the
+domain being analyzed...".
+
+\item \rq{Define ALE}
+
+  We added the definition ``Arbitrary Lagrangian-Eulerian'' at the place it
+  is first mentioned.
+  
+\item \rq{Sentence structure needs to be fixed}
+
+The sentence fragment ``Or, if two different methods use two different meshes
+of the same domain." has been modified to end with ``domain, a solution may
+need to be transferred across these meshes for comparison."
+
+\item \rq{Not always. Some ALE methods don't have any mesh modification}
+
+Done. Added caveat ``Many ALE methods modify the mesh during simulation:
+when flow-based mesh distortion occurs..." to the beginning of the sentence
+that previously started out ``When flow-based mesh distortion occurs...".
+
+\item \rq{Interpolation \(\to\) interpolative?}
+
+Done.
+
+\item \rq{it's \(\to\) its}
+
+Done.
+
+\item \rq{has an invertible Jacobian everywhere}
+
+Done.
+
+\item \rq{CG}
+
+Changed ``In the CG case, some coefficients will..." to ``In CG (continuous
+Galerkin, as opposed to DG or discontinuous Galerkin), some coefficients
+will..."
+
+\item \rq{term \(\to\) turn}
+
+Done.
+
+\end{itemize}
+
+\end{letter}
+
+\end{document}
