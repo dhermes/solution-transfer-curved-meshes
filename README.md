@@ -80,7 +80,7 @@ The `images/` in this repository are from my [thesis][1], in particular:
   - `main_figure25.pdf`
   - `main_figure30.pdf`
 
-Scripts to generate this images can be found there.
+Scripts to generate these images can be found there.
 
 [1]: https://github.com/dhermes/phd-thesis
 [2]: https://arxiv.org/abs/1609.00037
