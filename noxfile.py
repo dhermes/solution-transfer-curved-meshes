@@ -23,7 +23,7 @@ import py.path
 
 
 NOX_DIR = os.path.abspath(os.path.dirname(__file__))
-SINGLE_INTERP = "python3.7"
+DEFAULT_INTERPRETER = "python3.7"
 
 
 def get_path(*names):
@@ -59,10 +59,8 @@ def build_tex_file(session, base, new_id, extensions=()):
     session.run("python", modify_id, "--base", path, "--id", new_id)
 
 
-@nox.session
+@nox.session(py=DEFAULT_INTERPRETER)
 def build_tex(session):
-    session.interpreter = SINGLE_INTERP
-
     if py.path.local.sysfind("pdflatex") is None:
         session.skip("`pdflatex` must be installed")
 
@@ -82,9 +80,8 @@ def build_tex(session):
     )
 
 
-@nox.session
+@nox.session(py=DEFAULT_INTERPRETER)
 def make_images(session):
-    session.interpreter = SINGLE_INTERP
     # Install all dependencies.
     session.install("--requirement", "make-images-requirements.txt")
     # Run the script(s).
@@ -99,10 +96,8 @@ def make_images(session):
         session.run("python", script, env=env)
 
 
-@nox.session
+@nox.session(py=DEFAULT_INTERPRETER)
 def update_requirements(session):
-    session.interpreter = SINGLE_INTERP
-
     if py.path.local.sysfind("git") is None:
         session.skip("`git` must be installed")
 
