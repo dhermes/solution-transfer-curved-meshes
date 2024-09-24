@@ -51,6 +51,37 @@ sessions marked with * are selected, sessions marked with - are skipped.
 To run `nox -s build_tex` (i.e. to build the PDF), `pdflatex` and
 `bibtex` are required.
 
+## Images
+
+The `images/` in this repository are from my [thesis][1], in particular:
+
+- `images/preliminaries/`:
+  - `inverted_element.pdf`
+  - `main_figure01.pdf`
+  - `main_figure26.pdf`
+- `images/bezier-intersection/`:
+  - `bbox_check.pdf`
+  - `locate_in_triangle.pdf`
+  - `main_figure21.pdf`
+  - `main_figure22.pdf`
+  - `main_figure23.pdf`
+  - `main_figure24.pdf`
+  - `subdivide_curve.pdf`
+  - `subdivision_linearized.pdf`
+  - `subdivision_process.pdf`
+- `images/solution-transfer/`:
+  - `main_figure00.pdf`
+  - `main_figure02.pdf`
+  - `main_figure11.pdf`
+  - `main_figure13.pdf`
+  - `main_figure14.pdf`
+  - `main_figure15.pdf`
+  - `main_figure16.pdf`
+  - `main_figure25.pdf`
+  - `main_figure30.pdf`
+
+Scripts to generate this images can be found there.
+
 [1]: https://github.com/dhermes/phd-thesis
 [2]: https://arxiv.org/abs/1609.00037
 [3]: doc/paper.pdf
