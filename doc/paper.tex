@@ -46,6 +46,7 @@
 
 
 \newcommand{\rev}[1]{#1}
+%%% TODO: remove \rev
 
 \begin{document}
 
@@ -60,8 +61,8 @@
 
 \begin{abstract}
 \noindent The problem of solution transfer between meshes arises frequently in
-computational physics, e.g. in Lagrangian methods where remeshing
-occurs. The interpolation process must be conservative, i.e. it
+computational physics, e.g., in Lagrangian methods where remeshing
+occurs. The interpolation process must be conservative, i.e., it
 must conserve physical properties, such as mass. We extend previous
 works --- which described the solution transfer process for straight sided
 unstructured meshes --- by considering high-order isoparametric meshes
@@ -81,12 +82,13 @@ Solution Transfer, Discontinuous Galerkin
 
 Solution transfer between meshes is a common problem that
 has practical applications to many methods in
-computational physics. \rev{For example, by allowing the underyling
+computational physics. \rev{For example, by allowing the underlying
 computational domain to change during a simulation, computational
 effort can be focused dynamically to resolve relevant features
 of a numerical solution. This so-called mesh adaptivity typically
 requires translating the numerical solution from the old mesh to the new,
-\rev{i.e. solution transfer \cite{Babuska1978,Peraire1987,Pain2001,Iske2004}}}. As another example, Lagrangian or particle-based
+\rev{that is, solution transfer \cite{Babuska1978,Peraire1987,Pain2001,Iske2004}}}.
+As another example, Lagrangian or particle-based
 methods treat each node in the mesh as a particle and so with each timestep the
 \rev{mesh travels \emph{with} the fluid \cite{MR3023731}.
 However, over (typically short) time the mesh
@@ -103,17 +105,17 @@ Solution transfer is needed when a solution
 (approximated by a discrete field) is known on a \emph{donor} mesh and must
 be transferred to a \emph{target} mesh.
 When pointwise interpolation is used to transfer a solution, quantities with
-physical meaning (e.g. mass, concentration, energy) may not be conserved.
-In many applications, the field
-must be conserved for physical reasons, e.g. mass or energy cannot leave or
-enter the system, hence this paper focuses on \emph{conservative} solution transfer
+physical meaning (for instance, mass, concentration, energy) may not be
+conserved. In many applications, the field
+must be conserved for physical reasons, e.g., mass or energy cannot leave or
+enter the system; hence we focus on \emph{conservative} solution transfer
 (typically using Galerkin or \(L_2\)-minimizing methods).
 
 The problem of conservative interpolation
-has been considered previously for straight sided meshes.
+was considered previously for straight sided meshes.
 However, both to allow for greater
-geometric flexibility and for high order of convergence, this paper
-addresses the case of curved isoparametric meshes. \rev{This is based on the
+geometric flexibility and for high order of convergence, we
+address the case of curved isoparametric meshes. \rev{This is based on the
 recent interest in so-called high-order methods \cite{Wang2013}, which have the ability to
 produce highly accurate solutions with low dissipation and low dispersion error.
 However, these methods typically require curved meshes to obtain the high accuracy.}
@@ -137,14 +139,14 @@ Conservative solution transfer has been around since the advent of ALE,
 and as a result much of the existing literature focuses on mesh-mesh
 pairs that will occur during an ALE-based simulation. \rev{Many ALE methods
 modify the mesh during simulation: when flow-based
-mesh distortion occurs, elements are typically ``flipped'' (e.g. a
+mesh distortion occurs, elements are typically ``flipped'' (for example, a
 diagonal is switched in a pair of elements) or elements are subdivided
-or combined.} These operations are inherently local, hence the solution
+or combined.} These operations are inherently local; hence the solution
 transfer can be done locally across known neighbors. Typically, this
 locality is crucial to solution transfer methods. In \cite{Margolin2003},
 the transfer is based on partitioning elements of the updated mesh into
 components of elements from the old mesh and ``swept regions'' from
-neighbouring elements. In \cite{Kucharik2008}, the (locally) changing
+neighboring elements. In \cite{Kucharik2008}, the (locally) changing
 connectivity of the mesh is addressed. In \cite{Garimella2007}, the
 local transfer is done on polyhedral meshes.
 
@@ -162,16 +164,17 @@ solution transfer method that are important in various applications. For
 example, since our focus is on high-order methods, these typically produce
 oscillations in the solutions that can be non-physical and break the numerical
 solvers. This can happen for the standard Galerkin projections that we
-consider here, which means that e.g. discontinuities such as shocks in the
+consider here, which means that e.g., discontinuities such as shocks in the
 solution could become nonphysical after our solution transfer. Various
 solutions to this have been proposed before, often referred to as limiting or
-bound/monotonicity preserving methods, see e.g. \cite{MR3302403,Anderson2018}
+bound/monotonicity preserving methods; see, for instance,
+\cite{MR3302403,Anderson2018}
 where several approaches are studied including a high-order extension of the
 flux-corrected transport (FCT) method. Other considerations for a solution
 transfer scheme include the preservation of additional constraints, such
 as the divergence or the curl of the solution.}
 
-In this paper, an algorithm for conservative solution transfer between curved
+We describe an algorithm for conservative solution transfer between curved
 meshes will be described. This method applies to meshes in \(\reals^2\).
 Application to meshes in \(\reals^3\) is a direction for future research,
 though the geometric kernels (see Chapter~\ref{sec:bezier-intersection})
@@ -201,7 +204,7 @@ the unit triangle (or unit simplex) in \(\reals^2\):
 \begin{equation}
 \utri = \left\{(s, t) \mid 0 \leq s, t, s + t \leq 1\right\}.
 \end{equation}
-When dealing with sequences with multiple indices, e.g.
+When dealing with sequences with multiple indices, for example,
 \(s_{m, n} = m + n\), we'll use bold symbols to represent
 a multi-index: \(\bm{i} = (m, n)\).
 The binomial coefficient
@@ -233,11 +236,11 @@ curve must be contained in the convex hull of \rev{its} control points.
 
 \subsection{B\'{e}zier Triangles}
 
-A \emph{B\'{e}zier triangle} (\cite[Chapter~17]{Farin2001}) is a
+A \emph{B\'{e}zier triangle} \cite[Chapter~17]{Farin2001} is a
 mapping from the unit triangle
 \(\utri\) and is determined by a control net
 \(\left\{\bm{p}_{i, j, k}\right\}_{i + j + k = n} \subset \reals^d\).
-A B\'{e}zier triangle is a particular kind of B\'{e}zier surface, i.e. one
+A B\'{e}zier triangle is a particular kind of B\'{e}zier surface, i.e., one
 in which there are two cartesian or three barycentric input parameters.
 Often the term B\'{e}zier surface is used to refer to a tensor product or
 rectangular patch.
@@ -274,7 +277,7 @@ b(s, t) = \sum_{i + j + k = n} \binom{n}{i, j, k}
 also be uniquely determined by the image of a standard lattice of
 points in \(\utri\): \(b\left(j/n, k/n\right) = \bm{n}_{i, j, k}\);
 we'll refer to these as \emph{standard nodes}.
-Figure~\ref{fig:cubic-bezier-example} shows these standard nodes for
+Figure~\ref{fig:cubic-bezier-example} shows these standard nodes form
 a cubic triangle in \(\reals^2\). To see the correspondence,
 when \(p = 1\) the standard nodes \emph{are} the control net
 \begin{equation}
@@ -295,12 +298,12 @@ the control net and the standard nodes has condition
 number that grows exponentially with \(n\) (see \cite{Farouki1991}, which
 is related but does not directly show this).
 This may make working with
-higher degree triangles prohibitively unstable.
+higher-degree triangles prohibitively unstable.
 
 A \emph{valid} B\'{e}zier triangle is one which is
-diffeomorphic to \(\utri\), i.e. \(b(s, t)\) is bijective and has
+diffeomorphic to \(\utri\), that is, \(b(s, t)\) is bijective and has
 an \rev{invertible Jacobian everywhere}. We must also have the orientation
-preserved, i.e. the Jacobian must have positive determinant. For example, in
+preserved, that is, the Jacobian must have positive determinant. For example, in
 Figure~\ref{fig:inverted-element}, the image of \(\utri\) under
 the map \(b(s, t) = \left[\begin{array}{c c} (1 - s - t)^2 + s^2 & s^2 + t^2
 \end{array}\right]^T\) is not valid because the Jacobian is zero along
@@ -334,19 +337,19 @@ This fits a typical definition (\cite[Chapter~12]{FEM-ClaesJohnson})
 of a curved element, but gives a special meaning to the mapping from
 the reference triangle. Interpreting elements as B\'{e}zier triangles
 has been used for Lagrangian methods where
-mesh adaptivity is needed (e.g. \cite{CardozeMOP04}). Typically curved
+mesh adaptivity is needed (e.g., \cite{CardozeMOP04}). Typically curved
 elements only have one curved side (\cite{McLeod1972}) since they are used
 to resolve geometric features of a boundary. See also
 \cite{Zlmal1973, Zlmal1974}.
 B\'{e}zier curves and triangles have a number of mathematical properties
-(e.g. the convex hull property) that lead to elegant geometric
+(e.g., the convex hull property) that lead to elegant geometric
 descriptions and algorithms.
 
 Note that a B\'{e}zier triangle can be
-determined from many different sources of data (for example the control net
+determined from many different sources of data (for example, the control net
 or the standard nodes). The choice of this data may be changed to suit the
 underlying physical problem without changing the actual mapping. Conversely,
-the data can be fixed (e.g. as the control net) to avoid costly basis
+the data can be fixed (for instance, as the control net) to avoid costly basis
 conversion; once fixed, the equations of motion and other PDE terms can
 be recast relative to the new basis (for an example, see \cite{Persson2009},
 where the domain varies with time but the problem is reduced to
@@ -354,7 +357,7 @@ solving a transformed conservation law in a fixed reference configuration).
 
 \subsection{Shape Functions}\label{subsec:shape-functions}
 
-When defining shape functions (i.e. a basis with geometric meaning) on a
+When defining shape functions (i.e., a basis with geometric meaning) on a
 curved element there are (at least) two choices. When the degree of the
 shape functions is the same as the degree of the function being
 represented on the B\'{e}zier triangle,
@@ -367,19 +370,19 @@ Given these points, two choices for shape functions present
 themselves:
 \begin{itemize}
   \itemsep 0em
-  \item \emph{Pre-Image Basis}:
+  \item \emph{preimage basis}:
     \(\phi_{\bm{j}}\left(\bm{n}_{\bm{i}}\right) =
       \widehat{\phi}_{\bm{j}}\left(\bm{u}_{\bm{i}}\right) =
       \widehat{\phi}_{\bm{j}}\left(b^{-1}\left(
       \bm{n}_{\bm{i}}\right)\right)\)
     where \(\widehat{\phi}_{\bm{j}}\) is a canonical basis function
-    on \(\utri\), i.e.
-    \(\widehat{\phi}_{\bm{j}}\) a degree \(p\) bivariate polynomial and
+    on \(\utri\), that is,
+    \(\widehat{\phi}_{\bm{j}}\) is a degree \(p\) bivariate polynomial and
     \(\widehat{\phi}_{\bm{j}}\left(\bm{u}_{\bm{i}}\right) =
-    \delta_{\bm{i} \bm{j}}\)
-  \item \emph{Global Coordinates Basis}:
+    \delta_{\bm{i} \bm{j}}\).
+  \item \emph{global coordinates basis}:
     \(\phi_{\bm{j}}\left(\bm{n}_{\bm{i}}\right) =
-    \delta_{\bm{i} \bm{j}}\), i.e. a canonical basis function
+    \delta_{\bm{i} \bm{j}}\), that is, a canonical basis function
     on the standard nodes \(\left\{\bm{n}_{\bm{i}}\right\}\).
 \end{itemize}
 
@@ -401,17 +404,17 @@ b(s, t) = \left[ \begin{array}{c c}
     4 & 4 & 4 & 6 & 7 & 8
   \end{array}\right].
 \end{gather}
-In the \emph{Global Coordinates Basis}, we have
+In the \emph{global coordinates basis}, we have
 \begin{equation}
 \phi^{G}_{0, 1, 1}(x, y) = \frac{(y - 4) (x - y + 4)}{6}.
 \end{equation}
-For the \emph{Pre-Image Basis}, we need the inverse
+For the \emph{preimage basis}, we need the inverse
 and the canonical basis
 \begin{equation}
 b^{-1}(x, y) = \left[ \begin{array}{c c}
     \frac{x - y + 4}{4} & \frac{y - 4}{x - y + 8}
   \end{array}\right] \quad \text{and} \quad
-\widehat{\phi}_{0, 1, 1}(s, t) = 4 s t
+\widehat{\phi}_{0, 1, 1}(s, t) = 4 s t,
 \end{equation}
 and together they give
 \begin{equation}
@@ -419,7 +422,7 @@ and together they give
 \end{equation}
 In general \(\phi_{\bm{j}}^P\) may not even be a rational bivariate
 function; due to composition with \(b^{-1}\) we can only guarantee that
-it is algebraic (i.e. it can be defined as the zero set of polynomials
+it is algebraic (i.e., it can be defined as the zero set of polynomials
 with coefficients in \(\reals\left[x, y\right]\)).
 
 \subsection{Curved Polygons}\label{subsec:curved-polygons}
@@ -451,9 +454,9 @@ have boundaries formed by three B\'{e}zier curves:
 The intersection \(\mathcal{P}\) is defined by four boundary
 curves: \(\partial \mathcal{P} =
 C_1 \cup C_2 \cup C_3 \cup C_4\). Each boundary
-curve is itself a B\'{e}zier curve\footnote{A specialization of a
+curve is itself a B\'{e}zier curve:\footnote{A specialization of a
 B\'{e}zier curve \(b\left(\left[a_1, a_2\right]\right)\)
-is also a B\'{e}zier curve.}:
+is also a B\'{e}zier curve.}
 \(C_1 = b_{0, 0}\left(\left[0, 1/8\right]\right)\),
 \(C_2 = b_{1, 2}\left(\left[7/8, 1\right]\right)\),
 \(C_3 = b_{1, 0}\left(\left[0, 1/7\right]\right)\) and
@@ -478,10 +481,11 @@ be able to be described by a mapping from a simple space like
 \end{figure}
 
 Consider a donor mesh \(\mathcal{M}_D\) with shape function basis
-\(\phi_D^{(j)}\) and a known field \(\bm{q}_D = \sum_j d_j \phi_D^{(j)}\)
+\(\phi_D^{(j)}\) and a known field
 \footnote{This is somewhat a simplification. \rev{In CG (continuous Galerkin, as
 opposed to DG or discontinuous Galerkin)}, some coefficients will be paired
 with multiple shape functions, such as the coefficient at a vertex node.}
+\(\bm{q}_D = \sum_j d_j \phi_D^{(j)}\)
 and a
 target mesh \(\mathcal{M}_T\) with shape function basis \(\phi_T^{(j)}\)
 (Figure~\ref{fig:donor-target-pair}).
@@ -489,7 +493,7 @@ Each shape function \(\phi\) corresponds to a
 given isoparametric curved element (see Section~\ref{sec:curved-elements})
 \(\mathcal{T}\) in one of these meshes and has
 \(\operatorname{supp}(\phi) = \mathcal{T}\).
-Additionally, the shape functions are polynomial degree \(p\) (see
+Additionally, the shape functions are degree-\(p\) polynomials (see
 Section~\ref{subsec:shape-functions} for a discussion of shape functions),
 but the degree of the donor mesh need not be the same as that of the
 target mesh. We assume that both meshes cover the same domain \(\Omega \subset
@@ -500,7 +504,7 @@ We seek the \(L_2\)-optimal interpolant \(\bm{q}_T = \sum_j t_j \phi_T^{(j)}\):
 \begin{equation}
 \left \lVert \bm{q}_T - \bm{q}_D \right \rVert_2 =
 \min_{\bm{q} \in \mathcal{V}_T}
-\left \lVert \bm{q} - \bm{q}_D \right \rVert_2
+\left \lVert \bm{q} - \bm{q}_D \right \rVert_2,
 \end{equation}
 where \(\mathcal{V}_T = \operatorname{Span}_j\left\{\phi_T^{(j)}\right\}\)
 is the function space defined on the target mesh. Since this is optimal in
@@ -508,7 +512,7 @@ the \(L_2\) sense, by differentiating with respect to each \(t_j\) in
 \(\bm{q}_T\) we find the weak form:
 \begin{equation}
 \int_{\Omega} \bm{q}_D \phi_T^{(j)} \, dV =
-  \int_{\Omega} \bm{q}_T \phi_T^{(j)} \, dV, \qquad \text{for all } j.
+  \int_{\Omega} \bm{q}_T \phi_T^{(j)} \, dV \qquad \text{for all } j.
 \end{equation}
 If the constant function \(1\) is contained in \(\mathcal{V}_T\),
 conservation follows from the weak form and linearity of the integral
@@ -549,7 +553,7 @@ on those elements is known. When using shape functions in the
 global coordinates basis (see Section~\ref{subsec:shape-functions}), the
 integrand \(F = \phi_T^{(i)} \phi_T^{(j)}\) will be a polynomial of degree
 \(2p\) on \(\reals^2\). The domain of integration \(\mathcal{T}
-= b\left(\utri\right)\) is the image of a (degree \(p\)) map \(b(s, t)\)
+= b\left(\utri\right)\) is the image of a (degree-\(p\)) map \(b(s, t)\)
 from the unit triangle. Using substitution
 \begin{equation}\label{eq:mass-mat-subst}
 \int_{b\left(\utri\right)} F(x, y) \, dx \, dy =
@@ -572,7 +576,7 @@ more difficult.
   \includegraphics{main_figure02.pdf}
   \centering
   \captionsetup{width=.75\linewidth}
-  \caption{All donor elements that cover a target element}
+  \caption{All donor elements that cover a target element.}
   \label{fig:target-elt-all-matching}
 \end{figure}
 
@@ -606,7 +610,7 @@ Without partitioning \(\mathcal{T}\), the integrand is not a polynomial
 (in fact, possibly not smooth), so the quadrature cannot be exact.
 
 In order to compute \(M_{TD} \bm{d}\), we'll need to compute the
-\emph{common refinement}, i.e. an intermediate mesh that contains
+\emph{common refinement}, that is, an intermediate mesh that contains
 both the donor and target meshes. This will consist of all non-empty
 \(\mathcal{T} \cap \mathcal{T}'\) as \(\mathcal{T}\) varies over
 elements of the target mesh and \(\mathcal{T}'\) over elements of the
@@ -669,12 +673,12 @@ for neighbors that also intersect the target
 element \(\mathcal{T}\) (Figure~\ref{fig:target-elt-overlap-extra-layer}).
 This search takes \(\bigO{1}\) time. It's also worthwhile to keep the first
 layer of donor elements that don't intersect \(\mathcal{T}\) because they are
-more likely to intersect the neighbors of \(\mathcal{T}\)\footnote{In the
+more likely to intersect the neighbors of \(\mathcal{T}\).\footnote{In the
 very unlikely case that the boundary of \(\mathcal{T}\)
 \emph{exactly matches} the boundaries of the donor elements that cover it,
 \emph{none} of the overlapping donor elements can intersect the neighbors of
 \(\mathcal{T}\) so the first layer of non-intersected donor
-elements must be considered.}. Using the list of intersected elements, a
+elements must be considered.} Using the list of intersected elements, a
 neighbor of \(\mathcal{T}\) can find a donor element it intersects with in
 \(\bigO{1}\) time (Figure~\ref{fig:target-elt-neighbor}).
 As seen, after our \(\bigO{\left|\mathcal{M}_D\right|}\)
@@ -683,7 +687,7 @@ target element \(\mathcal{T}\) take
 \(\bigO{1}\) time. So together, the process takes
 \(\bigO{\left|\mathcal{M}_D\right| + \left|\mathcal{M}_T\right|}\).
 
-For special cases, e.g. ALE methods, the initial brute-force search
+For special cases such as ALE methods, the initial brute-force search
 can be reduced to \(\bigO{1}\). This could be enabled by tracking
 the remeshing process so a correspondence already exists. If a full
 mapping from donor to target mesh exists, the process of computing
@@ -721,8 +725,8 @@ B\'{e}zier maps that define the elements being intersected:
 \(\mathcal{T}_0 = b_0\left(\utri\right)\) and
 \(\mathcal{T}_1 = b_1\left(\utri\right)\).
 
-First a discussion of a method not used. A somewhat simple approach would be
-be to use polygonal approximation. I.e. approximate the boundary of each
+First a discussion of a method not used. A somewhat simple approach would
+be to use polygonal approximation, that is, approximate the boundary of each
 B\'{e}zier triangle with line segments, intersect the resulting polygons,
 triangulate the intersection polygon(s) and then numerically integrate
 on each triangulated cell. However, this approach is prohibitively inefficient.
@@ -733,7 +737,7 @@ error on the order of machine precision \(\bigO{\mach}\). On the other hand,
 approximating each side of \(\mathcal{P}\) with \(N\) line segments, the
 relative error is \(\bigO{1/N^2}\). (For example, if \(N = 2\) an edge
 curve \(b(s, 0)\) would be replaced by segments connecting \(b(0, 0),
-b(1/2, 0)\) and \(b(1, 0)\), i.e. \(N + 1\) equally spaced parameters.) This
+b(1/2, 0)\) and \(b(1, 0)\), i.e., \(N + 1\) equally spaced parameters.) This
 means that in order to perform as well as an \emph{exact} quadrature used in
 the curved case, we'd need \(N = \bigO{1/\sqrt{\mach}}\).
 
@@ -761,7 +765,7 @@ This can be thought of as a polygon with \(n\) sides that happens to
 have curved edges.
 
 Quadrature rules for straight sided polygons have been
-studied (\cite{Mousavi2009}) though they are not in wide use. Even
+studied \cite{Mousavi2009} though they are not in wide use. Even
 if a polygonal quadrature rule was to be employed, a map would need to be
 established from a reference polygon onto the curved edges. This map
 could then be used with a change of coordinates to move the integral
@@ -787,14 +791,14 @@ Since simple and well established quadrature rules do exist for triangles,
 a valid approach would be
 to tessellate a curved polygon into valid B\'{e}zier triangles
 (Figure~\ref{fig:tessellated-curved-polygon}) and then use substitution as
-in~\eqref{eq:mass-mat-subst}. However, tessellation is challenging for both
+in~\eqref{eq:mass-mat-subst}. However, tessellating is challenging for both
 theoretical and computational reasons.
-Theoretical: it's not even clear if an arbitrary curved polygon \emph{can}
-be tessellated into B\'{e}zier triangles. Computational: the placement
+Theoretically, it's not even clear if an arbitrary curved polygon \emph{can}
+be tessellated into B\'{e}zier triangles. Computationally, the placement
 of diagonals and potential introduction of interior nodes is very
 complex in cases where the curved polygon is nonconvex. What's more,
-the curved polygon is given only by the boundary, so higher degree triangles
-(i.e. cubic and above) introduced during tessellation would need to place
+the curved polygon is given only by the boundary, so higher-degree triangles
+(i.e., cubic and above) introduced during tessellation would need to place
 interior control points without causing the triangle to invert. To get a
 sense for these challenges, note how the ``simple'' introduction of
 diagonals in Figure~\ref{fig:bad-tessellation-required} leads to one
@@ -810,7 +814,7 @@ need to numerically integrate
   \int_{\utri} \left|\det(Db)\right| \left(\phi_0 \circ b\right)
   \left(\phi_1 \circ b\right) \, ds \, dt.
 \end{equation}
-If the shape functions are from the pre-image basis (see
+If the shape functions are from the preimage basis (see
 Section~\ref{subsec:shape-functions}), then \(\phi_0\)
 will not be defined at \(b(s, t) \not\in \mathcal{T}_0\) (similarly for
 \(\phi_1\)). Additionally, the absolute value in \(\left|\det(Db)\right|\)
@@ -820,7 +824,7 @@ global coordinates basis, then tessellation can be used via an
 application of Theorem~\ref{theorem:bad-triangle}, however this involves
 more computation than just applying Green's theorem along
 \(\partial \mathcal{P}\). By applying the theorem, inverted elements may
-be used in a tessellation, for example by introducing artificial
+be used in a tessellation, for example, by introducing artificial
 diagonals from a vertex as in Figure~\ref{fig:tessellated-curved-polygon}.
 In the global coordinates basis, \(F = \phi_0 \phi_1\) \emph{can}
 be evaluated for points in an inverted element that leave
@@ -865,8 +869,8 @@ If the shape functions are in the global coordinates basis
 This is because for these shape functions \(F = \phi_0 \phi_1\) will be
 polynomial on \(\reals^2\) and so will \(H\) and \(V\) and since each curve
 \(C\) is a B\'{e}zier curve segment, the components are also polynomials.
-If the shape functions are in the pre-image basis, then \(F\) won't in general
-be polynomial, hence standard quadrature rules can't be exact.
+If the shape functions are in the preimage basis, then \(F\) won't in general
+be polynomial; hence standard quadrature rules can't be exact.
 
 To evaluate \(G\), we must also evaluate \(H\) and \(V\) numerically.
 For example, since \(H(0, y) \equiv 0\),
@@ -879,25 +883,25 @@ H\left(\alpha, \beta\right) \approx \frac{\alpha}{2} \sum_j w_j
 \end{equation}
 we must be able to evaluate \(F\) for
 points on the line \(y = \beta\) for \(x\) between \(0\) and \(\alpha\). If
-the shape functions are from the pre-image basis, it may not even be possible
+the shape functions are from the preimage basis, it may not even be possible
 to evaluate \(F\) for such points. Since \(\left[\begin{array}{c c} \alpha &
 \beta \end{array}\right]^T\) is on the boundary of \(\mathcal{P}\), without
 loss of generality
 assume it is on the boundary of \(\mathcal{T}_0\). Thus, for some elements
-(e.g. if the point is on the bottom of the element), points
+(e.g., if the point is on the bottom of the element), points
 \(\left[\begin{array}{c c} \nu & \beta \end{array}\right]^T\) may not be
 in \(\mathcal{T}_0\). Since \(\operatorname{supp}(\phi_0) = \mathcal{T}_0\),
 we could take \(\phi_0(\nu, \beta) = 0\), but this would make the integrand
 non-smooth and so the accuracy of the \emph{exact} quadrature would be
 lost. But extending \(\phi_0 = \widehat{\phi}_0 \circ b_0^{-1}\) outside
 of \(\mathcal{T}_0\) may be impossible: even though \(b_0\) is bijective on
-\(\utri\) it may be many-to-one elsewhere hence \(b_0^{-1}\) can't be
+\(\utri\) it may be many-to-one elsewhere; hence \(b_0^{-1}\) can't be
 reliably extended outside of \(\mathcal{T}_0\).
 
-Even if the shape functions are from the global coordinates basis,
+Even when the shape functions are from the global coordinates basis,
 setting \(H(0, y) \equiv 0\) may introduce quadrature points that
 are very far from \(\mathcal{P}\). This can be somewhat addressed by using
-\(H(m, y) \equiv 0\) for a suitably chosen \(m\) (e.g. the minimum
+\(H(m, y) \equiv 0\) for a suitably chosen \(m\) (for instance, the minimum
 \(x\)-value in \(\mathcal{P}\)). Then we have
 \(H\left(\alpha, \beta\right) = \int_m^{\alpha} F\left(x, \beta\right) \, dx\).
 
@@ -908,8 +912,8 @@ are very far from \(\mathcal{P}\). This can be somewhat addressed by using
   \centering
   \captionsetup{width=.75\linewidth}
   \caption{Some example meshes used during the numerical
-    experiments; the donor meshs is on the left / blue and the target
-    mesh is on the right / green. These meshes are the cubic approximations
+    experiments; the donor mesh is on the left (blue) and the target
+    mesh is on the right (green). These meshes are the cubic approximations
     of each domain and have been refined twice.}
   \label{fig:meshes-used-refined}
 \end{figure}
@@ -939,11 +943,11 @@ Taking after \cite{Farrell2011}, we transfer three
 discrete fields in the discontinuous Galerkin (DG) basis.
 Each field is derived from one of the smooth scalar functions
 \begin{align}
-\zeta_1(x, y) &= 5 y^3 + x^2 + 2y + 3 \\
-\zeta_2(x, y) &= \exp\left(x^2\right) + 2y \\
+\zeta_1(x, y) &= 5 y^3 + x^2 + 2y + 3, \\
+\zeta_2(x, y) &= \exp\left(x^2\right) + 2y, \\
 \zeta_3(x, y) &= \sin(x) + \cos(y).
 \end{align}
-For a given mesh size \(h\), we expect that on a degree \(p\) isoparametric
+For a given mesh size \(h\), we expect that on a degree-\(p\) isoparametric
 mesh our solution transfer will have \(\bigO{h^{p + 1}}\) errors. To measure
 the rate of convergence:
 \begin{itemize}
@@ -983,14 +987,14 @@ the error and no convergence will be observed.
 Convergence results are shown in Figure~\ref{fig:composite-errors}
 and confirm the expected orders. Since \(\zeta_1\) is a cubic polynomial,
 one might expect the solution transfer on the cubic mesh to be \emph{exact}.
-This expectation would hold in the superparametric case (i.e. where the
+This expectation would hold in the superparametric case (i.e., where the
 elements are straight sided but the shape functions are higher degree).
 However, when the elements aren't straight \rev{sided} the isoparametric mapping
 changes the underlying function space.
 
 \section{Conclusion}
 
-This paper has described a method for conservative interpolation
+We have described a method for conservative interpolation
 between curved meshes. The transfer process conserves globally
 to machine precision since we can use exact quadratures for all
 integrals. The primary source of error comes from solving the linear
@@ -1000,7 +1004,7 @@ more efficient. Additionally, having a global transfer algorithm
 allows for remeshing to be done less frequently.
 
 The algorithm breaks down into three core subproblems: B\'{e}zier triangle
-intersection, a expanding front for intersecting elements and
+intersection, an expanding front for intersecting elements and
 integration on curved polygons. The inherently local nature of the
 expanding front allows the algorithm to be parallelized via domain
 decomposition with little data shared between processes. By
@@ -1017,10 +1021,10 @@ intersection algorithm is significantly more challenging.
 
 The restriction to shape functions from the global coordinates basis
 is a symptom of the method and not of the inherent problem. The
-pre-image basis has several appealing properties, for example
+preimage basis has several appealing properties, for example,
 this basis can be precomputed on \(\utri\). The problem of a
 valid tessellation of a curved polygon warrants more exploration.
-Such a tessellation algorithm would enable usage of the pre-image
+Such a tessellation algorithm would enable usage of the preimage
 basis.
 
 The usage of the global coordinates basis does have some benefits.
@@ -1033,9 +1037,6 @@ did not save any computation, it may still be preferred over
 the FTC approach because it would remove the usage of quadrature
 points outside of the domain \(\mathcal{P}\).
 
-\bibliography{paper}
-\bibliographystyle{alpha}
-
 \appendix
 
 \section{B\'{e}zier Intersection Problems}\label{sec:bezier-intersection}
@@ -1046,19 +1047,18 @@ The problem of intersecting two B\'{e}zier curves is a core building
 block for intersecting two B\'{e}zier triangles in \(\reals^2\).
 Since a curve is an algebraic variety of dimension one,
 the intersections will either be a curve segment common to both curves (if
-they coincide) or a finite set of points (i.e. dimension zero).
-Many algorithms have been described in the literature, both
-geometric (\cite{Sederberg1986, Sederberg1990, Kim1998}) and
-algebraic (\cite{Manocha:CSD-92-698}).
+they coincide) or a finite set of points (i.e., dimension zero).
+Many algorithms, both geometric \cite{Sederberg1986, Sederberg1990, Kim1998}
+and algebraic \cite{Manocha:CSD-92-698}, have been described in the literature.
 
-In the implementation for this paper, the B\'{e}zier subdivision
+In our implementation, the B\'{e}zier subdivision
 algorithm is used.
-In the case of a transversal intersection (i.e. one where the
+In the case of a transversal intersection (that is, one where the
 tangents to each curve are not parallel and both are non-zero),
 this algorithm performs very well. However, when curves are tangent,
 a large number of (false) candidate intersections are detected and
 convergence of Newton's method slows once in a neighborhood of an
-actual intersection. Non-transversal intersections
+actual intersection. Nontransversal intersections
 have infinite condition number, but transversal intersections with
 very high condition number can also cause convergence problems.
 
@@ -1127,7 +1127,7 @@ With these, Newton's method is
 \left[ \begin{array}{c c} s_n & t_n \end{array}\right]^T -
 J_n^{-1} F_n.
 \end{equation}
-This also gives an indication why convergence issues occur at non-transveral
+This also gives an indication why convergence issues occur at nontransversal
 intersections: they are exactly the intersections where the Jacobian is
 singular.
 
@@ -1181,7 +1181,7 @@ on the same algebraic curve (Figure~\ref{fig:intersection-difficulties}).
   \label{fig:intersection-difficulties}
 \end{figure}
 
-In the case of tangency, the intersection is non-transversal, hence has
+In the case of tangency, the intersection is nontransversal, and hence has
 infinite condition number. In the case of coincident curves, there are
 infinitely many intersections (along the segment when the curves
 coincide) so the subdivision process breaks down.
@@ -1196,11 +1196,11 @@ Consider two B\'{e}zier surfaces
 \begin{equation}
 b_0(s, t) =
 \left[ \begin{array}{c}
-    8 s \\ 8 t \end{array}\right] \qquad
+    8 s \\ 8 t \end{array}\right] \quad \text{and} \quad
 b_1(s, t) =
 \left[ \begin{array}{c}
     2 (6 s + t - 1) \\
-    2 (8 s^2 + 8 s t - 8 s + 3 t + 2) \end{array}\right]
+    2 (8 s^2 + 8 s t - 8 s + 3 t + 2) \end{array}\right].
 \end{equation}
 \begin{figure}
   \includegraphics{main_figure24.pdf}
@@ -1229,13 +1229,13 @@ and we classify each of them by comparing the tangent vectors
 E_3\left(\frac{1}{6}\right) = \frac{16}{9}
 \left[ \begin{array}{c} 0 \\ 1 \end{array}\right] \Longrightarrow
 E_2'\left(\frac{7}{9}\right) \times
-E_3'\left(\frac{1}{6}\right) = 96 \\
+E_3'\left(\frac{1}{6}\right) = 96, \\
 I_2:
 E_0\left(\frac{1}{2}\right) =
 E_3\left(\frac{1}{2}\right) =
 \left[ \begin{array}{c} 4 \\ 0 \end{array}\right] \Longrightarrow
 E_0'\left(\frac{1}{2}\right) \times
-E_3'\left(\frac{1}{2}\right) = 0 \\
+E_3'\left(\frac{1}{2}\right) = 0, \\
   I_3:
 E_1\left(\frac{1}{8}\right) =
 E_3\left(\frac{3}{4}\right) =
@@ -1256,7 +1256,7 @@ from our list of intersections until none remain.
   \emph{interior}.
 \item After classification, we move along
   \(E_3\) until we
-  encounter another intersection: \(I_2\)
+  encounter another intersection: \(I_2\).
 \item \(I_2\) is a point of tangency since
   \(E_0'\left(\frac{1}{2}\right) \times
   E_3'\left(\frac{1}{2}\right) = 0\).
@@ -1275,10 +1275,10 @@ from our list of intersections until none remain.
   along \(E_3\)
   and we have our first curved segment:
   \(E_3\left(\left[
-    \frac{1}{6}, \frac{3}{4}\right]\right)\)
+    \frac{1}{6}, \frac{3}{4}\right]\right)\).
 \item Finding no other intersections on \(E_1\)
   we continue until the end of the edge.
-  Now our (ordered) curved segments are:
+  Now our (ordered) curved segments are
   \begin{equation}
   E_3\left(\left[
     \frac{1}{6}, \frac{3}{4}\right]\right) \longrightarrow
@@ -1287,8 +1287,8 @@ from our list of intersections until none remain.
   \end{equation}
 \item Next we stay at the corner and switch to the next curve
   \(E_2\), moving along that curve
-  until we hit the next intersecton \(I_1\).
-  Now our (ordered) curved segments are:
+  until we hit the next intersection \(I_1\).
+  Now our (ordered) curved segments are
   \begin{equation}
   E_3\left(\left[
     \frac{1}{6}, \frac{3}{4}\right]\right) \longrightarrow
@@ -1298,10 +1298,10 @@ from our list of intersections until none remain.
     0, \frac{7}{9}\right]\right).
   \end{equation}
   Since we are now back where we started (at \(I_1\))
-  the process stops
+  the process stops.
 \end{itemize}
 We represent the boundary of the curved polygon as B\'{e}zier curves, so
-to complete the process we reparameterize (\cite[Ch.~5.4]{Farin2001}) each
+to complete the process we reparameterize \cite[Ch.~5.4]{Farin2001} each
 curve onto the relevant interval. For example,
 \(E_3\) has control points
 \(p_0 = \left[ \begin{array}{c} -2 \\ 4 \end{array}\right]\),
@@ -1311,10 +1311,10 @@ and we reparameterize on \(\alpha = \frac{1}{6}, \beta = \frac{3}{4}\) to
 control points
 \begin{align}
   q_0 &= E_3\left(\frac{1}{6}\right) =
-  \frac{16}{9} \left[ \begin{array}{c} 0 \\ 1 \end{array}\right] \\
-  q_1 &= (1 - \alpha) \left[(1 - \beta) p_0 + \beta p_1\right] +
-   \alpha \left[(1 - \beta) p_1 + \beta p_2\right] = \frac{1}{6} \left[
-    \begin{array}{c} 21 \\ -8 \end{array}\right] \\
+  \frac{16}{9} \left[ \begin{array}{c} 0 \\ 1 \end{array}\right], \\
+  q_1 &= (1 - \alpha) \left((1 - \beta) p_0 + \beta p_1\right) +
+   \alpha \left((1 - \beta) p_1 + \beta p_2\right) = \frac{1}{6} \left[
+    \begin{array}{c} 21 \\ -8 \end{array}\right], \\
   q_2 &= E_3\left(\frac{3}{4}\right) = \left[
     \begin{array}{c} 7 \\ 1 \end{array}\right].
 \end{align}
@@ -1391,13 +1391,13 @@ Since
 E_0 = \left\{ \left[ \begin{array}{c} r \\ 0 \end{array}\right] \mid
   r \in \left[0, 1\right] \right\}
 \end{equation}
-we take \(\varphi(r, 0) = b_0(r)\) hence
+we take \(\varphi(r, 0) = b_0(r)\); hence
 \begin{equation}
 dx = x_s \, dr, dy = y_s \, dr \Longrightarrow
 H dx - V dy = \Delta S \, dr.
 \end{equation}
 We also have \(ds = dr\) and \(dt = 0\) due to the
-parameterization, thus
+parameterization; thus
 \begin{equation}
 \int_{E_0} \Delta S \, ds + \Delta T \, dt =
   \int_{r = 0}^{r = 1} \Delta S \, dr = \int_{b_0} H \, dx - V \, dy.
@@ -1424,5 +1424,8 @@ but one can show directly that
   2 \det(D\varphi) \left[F \circ \varphi\right]. \tag*{\qedhere}
 \end{equation}
 \end{proof}
+
+\bibliography{paper}
+\bibliographystyle{alpha}
 
 \end{document}
