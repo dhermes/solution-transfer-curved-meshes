@@ -1,5 +1,9 @@
 # High-order Solution Transfer between Curved Triangular Meshes
 
+| Cite paper           |
+| -------------------- |
+| [![Paper DOI][9]][7] |
+
 This is work with [Per-Olof Persson][6].
 
 This originally appeared in my [thesis][1] and is now split out
@@ -9,7 +13,8 @@ This repository is laid out in a manner described in
 [Good Enough Practices in Scientific Computing][2].
 
 The content itself has been uploaded to the [arXiv][4] and was submitted to
-the journal [CAMCoS][5] on October 12, 2018.
+the journal [CAMCoS][5] on October 12, 2018. The paper has been accepted and
+was [published][7] [on][8] January 8, 2025.
 
 ## Abstract
 
@@ -24,6 +29,27 @@ integrate the product of shape functions via Green's theorem along the
 boundary of the intersection of two curved elements. We perform a numerical
 experiment and confirm the expected accuracy by transferring test fields
 across two families of meshes.
+
+## Citation
+
+To cite this paper:
+
+```
+@article{Hermes2025,
+  doi = {10.2140/camcos.2025.20.1},
+  url = {http://dx.doi.org/10.2140/camcos.2025.20.1},
+  year = {2025},
+  month = {Jan},
+  publisher = {Mathematical Sciences Publishers},
+  volume = {20},
+  number = {1},
+  pages = {1--27},
+  author = {Hermes, Danny and Persson, Per-Olof},
+  title = {High-order solution transfer between curved triangular meshes},
+  journal = {Communications in Applied Mathematics and Computational Science},
+  ISSN = {1559-3940}
+}
+```
 
 ## Installation
 
@@ -88,3 +114,6 @@ Scripts to generate these images can be found there.
 [4]: https://arxiv.org/abs/1810.06806
 [5]: https://msp.org/camcos/about/journal/about.html
 [6]: https://popersson.github.io/
+[7]: https://doi.org/10.2140/camcos.2025.20.1
+[8]: https://github.com/dhermes/solution-transfer-curved-meshes/blob/main/doc/camcos-v20-n1-p01-s.pdf
+[9]: https://img.shields.io/badge/DOI-10.2140%2Fcamcos.2025.20.1-blue.svg

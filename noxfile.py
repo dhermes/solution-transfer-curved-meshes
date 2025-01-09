@@ -56,7 +56,7 @@ def build_tex_file(session, base, new_id, extensions=()):
     path = get_path("doc", base)
     remove = Remove(path, extensions)
     session.run(remove)
-    session.run("python", modify_id, "--base", path, "--id", new_id)
+    session.run("python3", modify_id, "--base", path, "--id", new_id)
 
 
 @nox.session(py=False)
